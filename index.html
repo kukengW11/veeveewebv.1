@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VeeVee - แผ่นแปะกันยุงจากธรรมชาติ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Firebase SDK -->
+    <script type="module">
+        console.log('🔥 Loading Firebase...');
+        
+        try {
+            const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js');
+            const { getFirestore, collection, addDoc, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js');
+            
+            const firebaseConfig = {
+                apiKey: "AIzaSyAlUUr6ATEfDQohr5Zvdk5_C7xKJFBLem0",
+                authDomain: "veeveeweb.firebaseapp.com",
+                projectId: "veeveeweb",
+                storageBucket: "veeveeweb.firebasestorage.app",
+                messagingSenderId: "1054738271826",
+                appId: "1:1054738271826:web:c8d3ede74df35b87cc998b",
+                measurementId: "G-JNJW30SKK9"
+            };
+
+            console.log('🔥 Firebase Config:', firebaseConfig);
+            
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);
+            
+            console.log('✅ Firebase initialized successfully');
+
+            // Make Firebase available globally
+            window.firebaseDb = db;
+            window.firebaseAddDoc = addDoc;
+            window.firebaseCollection = collection;
+            window.firebaseServerTimestamp = serverTimestamp;
+            window.firebaseReady = true;
+            
+            console.log('✅ Firebase functions available globally');
+            
+        } catch (error) {
+            console.error('❌ Firebase initialization failed:', error);
+            window.firebaseReady = false;
+        }
+    </script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4ade80', // สีเขียวหลัก
+                        secondary: '#16a34a', // สีเขียวเข้ม
+                        accent: '#dcfce7', // สีเขียวอ่อน
+                        tertiary: '#22c55e', // สีเขียวกลาง
+                        dark: '#166534' // สีเขียวเข้มมาก
+                    },
+                    fontFamily: {
+                        'thai': ['Kanit', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { 
+            font-family: 'Kanit', sans-serif; 
+            background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+        }
+        .hero-gradient { 
+            background: linear-gradient(135deg, #16a34a 0%, #22c55e 50%, #4ade80 100%); 
+        }
+        .section-padding { padding: 80px 0; }
+        .card-shadow { box-shadow: 0 20px 40px rgba(22, 163, 74, 0.15); }
+        .float-animation { animation: float 6s ease-in-out infinite; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        .fade-in { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+        .parallax { transform: translateZ(0); will-change: transform; }
+        
+        /* Bug Guard style elements */
+        .bug-protection-circle {
+            background: radial-gradient(circle, rgba(74, 222, 128, 0.3) 0%, rgba(74, 222, 128, 0.1) 70%, transparent 100%);
+            border-radius: 50%;
+            position: absolute;
+            animation: pulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.1); opacity: 0.4; }
+        }
+        
+        .mosquito-icon {
+            position: absolute;
+            color: #dc2626;
+            font-size: 1.5rem;
+            animation: mosquito-fly 4s linear infinite;
+        }
+        
+        @keyframes mosquito-fly {
+            0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+            25% { transform: translate(50px, -30px) rotate(90deg); opacity: 0.8; }
+            50% { transform: translate(100px, 20px) rotate(180deg); opacity: 0.6; }
+            75% { transform: translate(150px, -10px) rotate(270deg); opacity: 0.3; }
+            100% { transform: translate(200px, 0) rotate(360deg); opacity: 0; }
+        }
+        
+        /* Loading animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Success animation */
+        .success-checkmark {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: block;
+            stroke-width: 2;
+            stroke: #4ade80;
+            stroke-miterlimit: 10;
+            margin: 10% auto;
+            box-shadow: inset 0px 0px 0px #4ade80;
+            animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+        }
+        .success-checkmark__circle {
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            stroke-width: 2;
+            stroke-miterlimit: 10;
+            stroke: #4ade80;
+            fill: none;
+            animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+        }
+        .success-checkmark__check {
+            transform-origin: 50% 50%;
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+        }
+        @keyframes stroke {
+            100% {
+                stroke-dashoffset: 0;
+            }
+        }
+        @keyframes scale {
+            0%, 100% {
+                transform: none;
+            }
+            50% {
+                transform: scale3d(1.1, 1.1, 1);
+            }
+        }
+        @keyframes fill {
+            100% {
+                box-shadow: inset 0px 0px 0px 30px #4ade80;
+            }
+        }
+
+        /* Thai text styling */
+        .thai-large {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.1;
+        }
+        
+        @media (max-width: 768px) {
+            .thai-large {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden" x-data="veeVeeApp()">
+    
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-white/95 backdrop-blur-md shadow-lg z-50 transition-all duration-300">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center">
+                        <span class="text-white font-bold text-xl">V</span>
+                    </div>
+                    <span class="text-2xl font-bold text-secondary">VeeVee</span>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="text-gray-700 hover:text-primary transition-colors font-medium">หน้าแรก</a>
+                    <a href="#why" class="text-gray-700 hover:text-primary transition-colors font-medium">ทำไมต้อง VeeVee</a>
+                    <a href="#features" class="text-gray-700 hover:text-primary transition-colors font-medium">คุณสมบัติ</a>
+                    <a href="#howto" class="text-gray-700 hover:text-primary transition-colors font-medium">วิธีใช้</a>
+                    <a href="#contact" class="text-gray-700 hover:text-primary transition-colors font-medium">ติดต่อ</a>
+                </div>
+                
+                <button @click="openOrderModal()" class="bg-primary text-white px-8 py-3 rounded-full hover:bg-secondary transition-all duration-300 transform hover:scale-105 font-semibold shadow-lg">
+                    สั่งซื้อเลย
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-gradient min-h-screen flex items-center relative overflow-hidden">
+        <!-- Background Protection Circles -->
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="bug-protection-circle w-96 h-96 top-20 -left-20"></div>
+            <div class="bug-protection-circle w-64 h-64 top-40 right-10" style="animation-delay: 1s;"></div>
+            <div class="bug-protection-circle w-80 h-80 bottom-32 left-1/3" style="animation-delay: 2s;"></div>
+        </div>
+        
+        <!-- Mosquito animations -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <i class="mosquito-icon fas fa-bug top-1/4 left-1/4"></i>
+            <i class="mosquito-icon fas fa-bug top-1/3 right-1/3" style="animation-delay: 2s;"></i>
+            <i class="mosquito-icon fas fa-bug bottom-1/3 left-1/2" style="animation-delay: 4s;"></i>
+        </div>
+        
+        <div class="container mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center relative z-10">
+            <div class="text-white space-y-8 fade-in">
+                <div class="space-y-6">
+                    <h1 class="thai-large text-white leading-tight">
+                        สติกเกอร์โลยูป์<br>
+                        <span class="text-accent font-black">บึกการ์ด</span>
+                    </h1>
+                    <p class="text-2xl lg:text-3xl font-semibold text-accent">
+                        ให้คุณปลอดภัยจากธรรมชาติ<br>
+                        ปลอดภัย ใช้งานง่าย 24 ชั่วโมง
+                    </p>
+                </div>
+                
+                <p class="text-xl lg:text-2xl text-white/90 leading-relaxed font-medium">
+                    น้ำมันหอมระเหยคุณภาพดี ปกป้องคุณจากยุงร้าย<br>
+                    แผ่นแปะกันยุงสูตรใหม่ ปลอดภัยสำหรับทุกคนในครอบครัว
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-6 pt-8">
+                    <button @click="scrollToWhy()" class="bg-white text-secondary px-10 py-4 rounded-full font-bold text-lg hover:bg-accent transition-all duration-300 transform hover:scale-105 flex items-center justify-center shadow-lg">
+                        <i class="fas fa-shield-alt mr-3"></i>
+                        เรียนรู้เพิ่มเติม
+                    </button>
+                    <button @click="openOrderModal()" class="border-3 border-white text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-secondary transition-all duration-300 transform hover:scale-105 flex items-center justify-center shadow-lg">
+                        <i class="fas fa-shopping-cart mr-3"></i>
+                        สั่งซื้อทันที
+                    </button>
+                </div>
+                
+                <div class="flex items-center space-x-12 pt-8">
+                    <div class="text-center">
+                        <div class="text-4xl font-black text-accent">24</div>
+                        <div class="text-lg text-white/80 font-medium">ชั่วโมง</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-4xl font-black text-accent">100%</div>
+                        <div class="text-lg text-white/80 font-medium">ธรรมชาติ</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-4xl font-black text-accent">12</div>
+                        <div class="text-lg text-white/80 font-medium">ชิ้น/ซอง</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="relative flex justify-center items-center fade-in">
+                <div class="relative max-w-lg w-full">
+                    <!-- Protection Shield Effect -->
+                    <div class="absolute inset-0 bg-gradient-to-r from-accent/30 to-primary/30 rounded-full blur-3xl scale-150 animate-pulse"></div>
+                    
+                    <div class="relative overflow-hidden rounded-3xl shadow-2xl bg-white/10 backdrop-blur-sm border border-white/20">
+                        <img src="https://i.postimg.cc/3wy6HCqz/Vee-Vee.png" 
+                             alt="VeeVee Package" 
+                             class="w-full h-auto transform hover:scale-105 transition-all duration-500 float-animation p-8">
+                        
+                        <!-- Package Badge -->
+                        <div class="absolute -top-4 -right-4 bg-accent text-secondary px-6 py-3 rounded-full font-black text-lg shadow-lg border-2 border-white">
+                            12 PCS
+                        </div>
+                        
+                        <!-- Protection Badge -->
+                        <div class="absolute -bottom-4 -left-4 bg-white text-secondary px-6 py-3 rounded-full font-black text-lg shadow-lg flex items-center">
+                            <i class="fas fa-shield-alt mr-2 text-primary"></i>
+                            24h PROTECTION
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why VeeVee Section -->
+    <section id="why" class="section-padding bg-gradient-to-br from-green-50 to-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center space-y-6 mb-16 fade-in">
+                <h2 class="text-5xl lg:text-6xl font-black text-secondary">ทำไมต้อง VeeVee?</h2>
+                <p class="text-2xl text-gray-600 max-w-4xl mx-auto font-medium">
+                    น้ำมันหอมระเหยคุณภาพดี ป้องกันคุณจากยุงร้าย<br>
+                    แผ่นแปะกันยุงสูตรใหม่ ปลอดภัยกลิ่นหอมพิเศษที่ทำให้ยุงส่ายหน้า มีนวง ไม่กล้าเข้าใกล้คุณและปกป้องคุณตลอดวัน
+                </p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="space-y-8 fade-in">
+                    <div class="flex items-start space-x-6 p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+                        <div class="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-leaf text-primary text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-secondary mb-3">น้ำมันหอมระเหยคุณภาพดี</h3>
+                            <p class="text-gray-600 text-lg">อ่อนโยนจากสารสกัดธรรมชาติ 5 ชนิด ได้แก่ น้ำมันตะไคร้หอม, น้ำมันยูคาลิปตัส, เปปเปอร์มินต์, ดอกเจอเรเนียม และลาเวนเดอร์ ผสมผสานกันอย่างลงตัว</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-6 p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+                        <div class="w-16 h-16 bg-secondary/20 rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-clock text-secondary text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-secondary mb-3">ป้องกันยาวนาน 24 ชั่วโมง</h3>
+                            <p class="text-gray-600 text-lg">เทคโนโลยี Microencapsulation ช่วยปล่อยกลิ่นแบบ Slow Release ให้ประสิทธิภาพสูงสุดตลอด 24 ชั่วโมง</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-6 p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+                        <div class="w-16 h-16 bg-tertiary/20 rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-shield-alt text-tertiary text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-secondary mb-3">ปลอดภัยสำหรับทุกคน</h3>
+                            <p class="text-gray-600 text-lg">ไม่มีสารเคมีที่เป็นอันตราย เหมาะสำหรับเด็ก ผู้ใหญ่ และผู้สูงอายุ ใช้ได้อย่างมั่นใจ</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start space-x-6 p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+                        <div class="w-16 h-16 bg-accent/60 rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-hand-paper text-secondary text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-secondary mb-3">ใช้งานง่าย พกพาสะดวก</h3>
+                            <p class="text-gray-600 text-lg">แค่กดปุ่ม 4 เม็ด แล้วแปะได้ทุกที่ น้ำหนักเบา ไม่ทิ้งคราบกาว</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="relative fade-in">
+                    <div class="relative">
+                        <img src="https://i.postimg.cc/Y94jBVNY/S-18800654-0.jpg" 
+                             alt="Natural Protection" 
+                             class="w-full h-auto rounded-3xl shadow-2xl">
+                        
+                        <!-- Floating Badge -->
+                        <div class="absolute top-8 right-8 bg-white rounded-2xl p-6 shadow-lg">
+                            <div class="text-center">
+                                <div class="text-3xl font-black text-primary">100%</div>
+                                <div class="text-lg text-gray-600 font-medium">ธรรมชาติ</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Protection Ring -->
+                        <div class="absolute inset-0 rounded-3xl border-4 border-primary/30 animate-pulse"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="section-padding bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center space-y-6 mb-16 fade-in">
+                <h2 class="text-5xl lg:text-6xl font-black text-secondary">คุณสมบัติเด่น</h2>
+                <p class="text-2xl text-gray-600 font-medium">สารระเหยมากกว่า 40 เท่า ให้ประสิทธิภาพสูงสุด</p>
+            </div>
+            
+            <!-- Product Hero Image -->
+            <div class="text-center mb-16 fade-in">
+                <div class="relative inline-block">
+                    <img src="https://i.postimg.cc/1zjgY6nW/S-18800647-0.jpg" 
+                         alt="VeeVee Product Features" 
+                         class="max-w-2xl mx-auto rounded-3xl shadow-2xl">
+                    
+                    <!-- Feature callouts -->
+                    <div class="absolute -top-4 -left-4 bg-primary text-white px-4 py-2 rounded-full font-bold text-sm shadow-lg animate-bounce">
+                        มาโคร 40X
+                    </div>
+                    <div class="absolute -bottom-4 -right-4 bg-secondary text-white px-4 py-2 rounded-full font-bold text-sm shadow-lg animate-bounce" style="animation-delay: 0.5s;">
+                        24 ชั่วโมง
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center space-y-6 p-8 rounded-2xl bg-gradient-to-br from-primary/10 to-primary/5 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 fade-in">
+                    <div class="w-20 h-20 bg-primary/20 rounded-full flex items-center justify-center mx-auto">
+                        <i class="fas fa-leaf text-primary text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-secondary">จากธรรมชาติ 100%</h3>
+                    <p class="text-gray-600 text-lg">ผสานพลังสารสกัดธรรมชาติ 5 ชนิด ปลอดภัยสำหรับทุกคนในครอบครัว</p>
+                </div>
+                
+                <div class="text-center space-y-6 p-8 rounded-2xl bg-gradient-to-br from-secondary/10 to-secondary/5 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 fade-in">
+                    <div class="w-20 h-20 bg-secondary/20 rounded-full flex items-center justify-center mx-auto">
+                        <i class="fas fa-clock text-secondary text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-secondary">ป้องกันนาน 24 ชั่วโมง</h3>
+                    <p class="text-gray-600 text-lg">เทคโนโลยี Microencapsulation ช่วยปล่อยกลิ่นแบบ Slow Release</p>
+                </div>
+                
+                <div class="text-center space-y-6 p-8 rounded-2xl bg-gradient-to-br from-tertiary/10 to-tertiary/5 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 fade-in">
+                    <div class="w-20 h-20 bg-tertiary/20 rounded-full flex items-center justify-center mx-auto">
+                        <i class="fas fa-hand-paper text-tertiary text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-secondary">ใช้งานง่าย</h3>
+                    <p class="text-gray-600 text-lg">แค่กดปุ่ม 4 เม็ด แล้วแปะได้ทุกที่ กระเป๋า เสื้อผ้า</p>
+                </div>
+                
+                <div class="text-center space-y-6 p-8 rounded-2xl bg-gradient-to-br from-accent/40 to-accent/20 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 fade-in">
+                    <div class="w-20 h-20 bg-accent/60 rounded-full flex items-center justify-center mx-auto">
+                        <i class="fas fa-chart-line text-secondary text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-secondary">สารระเหยมากกว่า 40 เท่า</h3>
+                    <p class="text-gray-600 text-lg">ปริมาณสารระเหยมากกว่าแผ่นแปะกันยุงทั่วไปถึง 40 เท่า</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="section-padding hero-gradient relative overflow-hidden">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="bug-protection-circle w-96 h-96 top-10 -right-20"></div>
+            <div class="bug-protection-circle w-64 h-64 bottom-10 -left-10" style="animation-delay: 1s;"></div>
+        </div>
+        
+        <div class="container mx-auto px-6 text-center text-white relative z-10">
+            <div class="max-w-4xl mx-auto space-y-8 fade-in">
+                <h2 class="text-5xl lg:text-7xl font-black leading-tight">พร้อมปกป้องคุณและครอบครัว?</h2>
+                <p class="text-2xl lg:text-3xl text-accent font-semibold">
+                    สั่งซื้อ VeeVee แผ่นแปะกันยุงจากธรรมชาติ<br>
+                    ปลอดภัย มีประสิทธิภาพ ใช้งานง่าย
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-6 justify-center pt-8">
+                    <a href="tel:0979965556" class="bg-white text-secondary px-12 py-5 rounded-full font-bold text-xl hover:bg-accent transition-all duration-300 transform hover:scale-105 flex items-center justify-center shadow-lg">
+                        <i class="fas fa-phone mr-3"></i>
+                        โทรสั่งซื้อ 097-996-5556
+                    </a>
+                    
+                    <a href="https://line.me/R/ti/p/@819rwbfr" target="_blank" class="border-3 border-white text-white px-12 py-5 rounded-full font-bold text-xl hover:bg-white hover:text-secondary transition-all duration-300 transform hover:scale-105 flex items-center justify-center shadow-lg">
+                        <i class="fab fa-line mr-3"></i>
+                        สั่งผ่าน Line
+                    </a>
+                </div>
+                
+                <div class="text-3xl font-black text-accent mt-8">
+                    ราคาพิเศษ ฿119 ต่อซอง
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pt-12">
+                    <div class="text-center">
+                        <i class="fas fa-shipping-fast text-5xl mb-4"></i>
+                        <h4 class="font-bold text-xl mb-2">จัดส่งฟรี</h4>
+                        <p class="text-white/80 text-lg">สั่งครับ 500 บาท</p>
+                    </div>
+                    <div class="text-center">
+                        <i class="fas fa-undo text-5xl mb-4"></i>
+                        <h4 class="font-bold text-xl mb-2">รับประกันคุณภาพ</h4>
+                        <p class="text-white/80 text-lg">ไม่พอใจ คืนเงิน 100%</p>
+                    </div>
+                    <div class="text-center">
+                        <i class="fas fa-headset text-5xl mb-4"></i>
+                        <h4 class="font-bold text-xl mb-2">บริการหลังการขาย</h4>
+                        <p class="text-white/80 text-lg">ดูแลลูกค้าตลอดไป</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section-padding bg-secondary text-white">
+        <div class="container mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="space-y-8 fade-in">
+                    <h2 class="text-5xl lg:text-6xl font-black">ติดต่อเรา</h2>
+                    <p class="text-2xl text-green-100">พร้อมให้บริการและตอบคำถามทุกเรื่องเกี่ยวกับ VeeVee</p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-center space-x-6 p-4 bg-white/10 rounded-2xl">
+                            <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center">
+                                <i class="fas fa-phone text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-xl">โทรศัพท์</h4>
+                                <p class="text-green-100 text-lg">097-996-5556</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-6 p-4 bg-white/10 rounded-2xl">
+                            <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center">
+                                <i class="fab fa-line text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-xl">Line Official</h4>
+                                <p class="text-green-100 text-lg">@veevee.official</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-6 p-4 bg-white/10 rounded-2xl">
+                            <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center">
+                                <i class="fas fa-envelope text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-xl">อีเมล</h4>
+                                <p class="text-green-100 text-lg">veeveeofficialthailand@gmail.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-3xl p-8 fade-in shadow-2xl">
+                    <h3 class="text-3xl font-bold text-secondary mb-6">ส่งข้อความหาเรา</h3>
+                    <form @submit.prevent="submitContactForm()" class="space-y-6">
+                        <div>
+                            <input type="text" x-model="contactForm.name" placeholder="ชื่อ-นามสกุล" required
+                                   class="w-full px-6 py-4 rounded-xl border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-gray-700 text-lg">
+                        </div>
+                        <div>
+                            <input type="email" x-model="contactForm.email" placeholder="อีเมล" required
+                                   class="w-full px-6 py-4 rounded-xl border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-gray-700 text-lg">
+                        </div>
+                        <div>
+                            <input type="tel" x-model="contactForm.phone" placeholder="เบอร์โทรศัพท์" required
+                                   class="w-full px-6 py-4 rounded-xl border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-gray-700 text-lg">
+                        </div>
+                        <div>
+                            <textarea x-model="contactForm.message" placeholder="ข้อความ" rows="4" required
+                                     class="w-full px-6 py-4 rounded-xl border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-gray-700 text-lg"></textarea>
+                        </div>
+                        <button type="submit" :disabled="contactSubmitting"
+                                class="w-full bg-primary text-white py-4 rounded-xl font-bold text-lg hover:bg-secondary transition-colors disabled:opacity-50 flex items-center justify-center shadow-lg">
+                            <span x-show="!contactSubmitting">ส่งข้อความ</span>
+                            <span x-show="contactSubmitting" class="flex items-center">
+                                <div class="loading mr-2"></div>
+                                กำลังส่ง...
+                            </span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Order Modal -->
+    <div x-show="showOrderModal" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" @click.self="closeOrderModal()">
+        <div x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform scale-90" x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-90" class="bg-white rounded-3xl p-8 max-w-2xl w-full max-h-screen overflow-y-auto">
+            
+            <!-- Close Button -->
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl font-bold text-secondary">สั่งซื้อ VeeVee</h2>
+                <button @click="closeOrderModal()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors">
+                    <i class="fas fa-times text-gray-600"></i>
+                </button>
+            </div>
+
+            <!-- Product Summary -->
+            <div class="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl p-6 mb-8">
+                <div class="flex items-center space-x-4">
+                    <img src="https://i.postimg.cc/3wy6HCqz/Vee-Vee.png" alt="VeeVee Product" class="w-20 h-20 rounded-xl object-cover">
+                    <div class="flex-1">
+                        <h3 class="text-xl font-semibold text-secondary mb-2">VeeVee Anti-Mosquito Patch</h3>
+                        <p class="text-gray-600">12 ชิ้น/ซอง - ป้องกันยุง 24 ชั่วโมง</p>
+                        <div class="flex items-center mt-2">
+                            <span class="text-2xl font-bold text-primary">฿119</span>
+                            <span class="text-gray-500 ml-2">ต่อซอง</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Form -->
+            <form @submit.prevent="submitOrder()" class="space-y-6">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">ชื่อ-นามสกุล *</label>
+                        <input type="text" x-model="orderForm.name" required
+                               class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">เบอร์โทรศัพท์ *</label>
+                        <input type="tel" x-model="orderForm.phone" required
+                               class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">อีเมล</label>
+                    <input type="email" x-model="orderForm.email"
+                           class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">จำนวนที่ต้องการ *</label>
+                    <div class="flex items-center space-x-4">
+                        <button type="button" @click="decreaseQuantity()" class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 transition-colors">
+                            <i class="fas fa-minus text-gray-600"></i>
+                        </button>
+                        <input type="number" x-model="orderForm.quantity" min="1" required readonly
+                               class="w-20 text-center py-2 border border-gray-300 rounded-lg font-semibold text-lg">
+                        <button type="button" @click="increaseQuantity()" class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 transition-colors">
+                            <i class="fas fa-plus text-gray-600"></i>
+                        </button>
+                        <span class="text-gray-600">ซอง</span>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">ที่อยู่จัดส่ง *</label>
+                    <textarea x-model="orderForm.address" rows="3" required placeholder="กรุณากรอกที่อยู่จัดส่งให้ครบถ้วน"
+                             class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">วิธีการชำระเงิน *</label>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <label class="flex items-center p-4 border rounded-xl cursor-pointer" :class="orderForm.paymentMethod === 'qr' ? 'border-primary bg-primary/10' : 'border-gray-300'">
+                            <input type="radio" x-model="orderForm.paymentMethod" value="qr" class="sr-only">
+                            <div class="flex-1 text-center">
+                                <i class="fas fa-qrcode text-2xl mb-2 block" :class="orderForm.paymentMethod === 'qr' ? 'text-primary' : 'text-gray-400'"></i>
+                                <span class="font-semibold">QR PromptPay</span>
+                            </div>
+                        </label>
+                        
+                        <label class="flex items-center p-4 border rounded-xl cursor-pointer" :class="orderForm.paymentMethod === 'cod' ? 'border-primary bg-primary/10' : 'border-gray-300'">
+                            <input type="radio" x-model="orderForm.paymentMethod" value="cod" class="sr-only">
+                            <div class="flex-1 text-center">
+                                <i class="fas fa-hand-holding-usd text-2xl mb-2 block" :class="orderForm.paymentMethod === 'cod' ? 'text-primary' : 'text-gray-400'"></i>
+                                <span class="font-semibold">เก็บเงินปลายทาง</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="bg-gray-50 rounded-2xl p-6">
+                    <h4 class="font-semibold text-gray-700 mb-4">สรุปคำสั่งซื้อ</h4>
+                    <div class="space-y-2">
+                        <div class="flex justify-between">
+                            <span>VeeVee x <span x-text="orderForm.quantity"></span> ซอง</span>
+                            <span x-text="'฿' + (orderForm.quantity * 119).toLocaleString()"></span>
+                        </div>
+                        <div class="flex justify-between text-sm text-gray-600">
+                            <span>ค่าจัดส่ง</span>
+                            <span>฿50</span>
+                        </div>
+                        <div x-show="orderForm.paymentMethod === 'cod'" class="flex justify-between text-sm text-gray-600">
+                            <span>ค่า COD (3%)</span>
+                            <span x-text="'฿' + Math.round((orderForm.quantity * 119) * 0.03)"></span>
+                        </div>
+                        <hr class="my-2">
+                        <div class="flex justify-between font-bold text-lg">
+                            <span>รวมทั้งหมด</span>
+                            <span class="text-primary" x-text="'฿' + getTotalPrice().toLocaleString()"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" :disabled="orderSubmitting || !orderForm.paymentMethod"
+                        class="w-full bg-primary text-white py-4 rounded-xl font-semibold text-lg hover:bg-secondary transition-colors disabled:opacity-50 flex items-center justify-center shadow-lg">
+                    <span x-show="!orderSubmitting">ยืนยันคำสั่งซื้อ</span>
+                    <span x-show="orderSubmitting" class="flex items-center">
+                        <div class="loading mr-2"></div>
+                        กำลังส่งคำสั่งซื้อ...
+                    </span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div x-show="showSuccessModal" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform scale-90" x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-90" class="bg-white rounded-3xl p-8 max-w-md w-full text-center">
+            
+            <svg class="success-checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                <circle class="success-checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+                <path class="success-checkmark__check" fill="none" d="m14.1 27.2l7.1 7.2 16.7-16.8"/>
+            </svg>
+
+            <h3 class="text-2xl font-bold text-secondary mb-4">ขอบคุณครับ!</h3>
+            <p class="text-gray-600 mb-2" x-text="successMessage"></p>
+            <p class="text-sm text-gray-500 mb-6" x-show="orderNumber">หมายเลขคำสั่งซื้อ: <span class="font-semibold" x-text="orderNumber"></span></p>
+            
+            <button @click="closeSuccessModal()" 
+                    class="bg-primary text-white px-8 py-3 rounded-full font-semibold hover:bg-secondary transition-colors shadow-lg">
+                ตกลง
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-6 text-center">
+            <div class="flex items-center justify-center space-x-3 mb-6">
+                <div class="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center">
+                    <span class="text-white font-bold text-xl">V</span>
+                </div>
+                <span class="text-2xl font-bold">VeeVee</span>
+            </div>
+            <p class="text-gray-400 mb-4 text-lg">แผ่นแปะกันยุงจากธรรมชาติ ปกป้องคุณและครอบครัวอย่างปลอดภัย</p>
+            <p class="text-gray-500">&copy; 2025 VeeVee. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function veeVeeApp() {
+            return {
+                showOrderModal: false,
+                showSuccessModal: false,
+                orderSubmitting: false,
+                contactSubmitting: false,
+                successMessage: '',
+                orderNumber: '',
+                
+                APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbz4emTkWvPESWHw0QnfoLRQFNZrarBZkdsPSMxxPuXB4T6BZWS9cbP-0kvNH0G1u4jM/exec',
+                
+                orderForm: {
+                    name: '',
+                    phone: '',
+                    email: '',
+                    quantity: 1,
+                    address: '',
+                    note: '',
+                    paymentMethod: 'qr'
+                },
+                
+                contactForm: {
+                    name: '',
+                    email: '',
+                    phone: '',
+                    message: ''
+                },
+
+                init() {
+                    console.log('🚀 VeeVee App initialized');
+                    
+                    // Intersection Observer for fade-in animations
+                    const observerOptions = {
+                        threshold: 0.1,
+                        rootMargin: '0px 0px -50px 0px'
+                    };
+
+                    const observer = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add('visible');
+                            }
+                        });
+                    }, observerOptions);
+
+                    document.querySelectorAll('.fade-in').forEach(el => {
+                        observer.observe(el);
+                    });
+
+                    this.setupSmoothScroll();
+                },
+                
+                scrollToWhy() {
+                    document.getElementById('why').scrollIntoView({ behavior: 'smooth' });
+                },
+                
+                openOrderModal() {
+                    this.showOrderModal = true;
+                    document.body.style.overflow = 'hidden';
+                },
+                
+                closeOrderModal() {
+                    this.showOrderModal = false;
+                    document.body.style.overflow = 'auto';
+                },
+                
+                closeSuccessModal() {
+                    this.showSuccessModal = false;
+                    this.orderNumber = '';
+                    document.body.style.overflow = 'auto';
+                },
+                
+                increaseQuantity() {
+                    this.orderForm.quantity++;
+                },
+                
+                decreaseQuantity() {
+                    if (this.orderForm.quantity > 1) {
+                        this.orderForm.quantity--;
+                    }
+                },
+                
+                getTotalPrice() {
+                    const subtotal = this.orderForm.quantity * 119;
+                    const shipping = 50;
+                    const codFee = this.orderForm.paymentMethod === 'cod' ? Math.round(subtotal * 0.03) : 0;
+                    return subtotal + shipping + codFee;
+                },
+                
+                async submitOrder() {
+                    this.orderSubmitting = true;
+                    
+                    try {
+                        const orderData = {
+                            customer_id: 'guest_' + Date.now(),
+                            name: this.orderForm.name,
+                            phone: this.orderForm.phone,
+                            email: this.orderForm.email,
+                            quantity: this.orderForm.quantity,
+                            address: this.orderForm.address,
+                            payment_method: this.orderForm.paymentMethod,
+                            notes: this.orderForm.note,
+                            total_amount: this.getTotalPrice(),
+                            created_at: new Date().toISOString()
+                        };
+
+                        // Save to Firebase
+                        let firebaseSuccess = false;
+                        if (window.firebaseDb) {
+                            try {
+                                await window.firebaseAddDoc(window.firebaseCollection(window.firebaseDb, 'orders'), {
+                                    ...orderData,
+                                    timestamp: window.firebaseServerTimestamp()
+                                });
+                                firebaseSuccess = true;
+                                console.log('✅ Order saved to Firebase');
+                            } catch (fbError) {
+                                console.error('Firebase save failed:', fbError);
+                            }
+                        }
+
+                        // Try to send to Google Apps Script
+                        let appsScriptSuccess = false;
+                        if (this.APPS_SCRIPT_URL && this.APPS_SCRIPT_URL.includes('script.google.com')) {
+                            try {
+                                await fetch(this.APPS_SCRIPT_URL, {
+                                    method: 'POST',
+                                    mode: 'no-cors',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({
+                                        action: 'create_order',
+                                        ...orderData
+                                    })
+                                });
+                                appsScriptSuccess = true;
+                                console.log('✅ Order sent to Apps Script');
+                            } catch (asError) {
+                                console.error('Apps Script send failed:', asError);
+                            }
+                        }
+
+                        this.orderNumber = 'VV-' + Date.now();
+                        this.successMessage = `คำสั่งซื้อของคุณได้รับการบันทึกแล้ว ทีมงานจะติดต่อกลับภายใน 24 ชั่วโมง`;
+                        this.closeOrderModal();
+                        this.showSuccessModal = true;
+                        
+                        // Reset form
+                        this.orderForm = {
+                            name: '',
+                            phone: '',
+                            email: '',
+                            quantity: 1,
+                            address: '',
+                            note: '',
+                            paymentMethod: 'qr'
+                        };
+                        
+                    } catch (error) {
+                        console.error('Error submitting order:', error);
+                        alert('เกิดข้อผิดพลาดในการส่งคำสั่งซื้อ กรุณาลองใหม่อีกครั้งหรือติดต่อเราโดยตรง');
+                    } finally {
+                        this.orderSubmitting = false;
+                    }
+                },
+                
+                async submitContactForm() {
+                    this.contactSubmitting = true;
+                    
+                    try {
+                        const contactData = {
+                            name: this.contactForm.name,
+                            email: this.contactForm.email,
+                            phone: this.contactForm.phone,
+                            message: this.contactForm.message,
+                            timestamp: new Date().toISOString(),
+                            type: 'contact'
+                        };
+
+                        // Save to Firebase
+                        let firebaseSuccess = false;
+                        if (window.firebaseDb) {
+                            try {
+                                await window.firebaseAddDoc(window.firebaseCollection(window.firebaseDb, 'contacts'), {
+                                    ...contactData,
+                                    timestamp: window.firebaseServerTimestamp()
+                                });
+                                firebaseSuccess = true;
+                                console.log('✅ Contact form saved to Firebase');
+                            } catch (fbError) {
+                                console.error('Firebase save failed:', fbError);
+                            }
+                        }
+
+                        // Send to Apps Script
+                        let appsScriptSuccess = false;
+                        if (this.APPS_SCRIPT_URL && this.APPS_SCRIPT_URL.includes('script.google.com')) {
+                            try {
+                                await fetch(this.APPS_SCRIPT_URL, {
+                                    method: 'POST',
+                                    mode: 'no-cors',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({
+                                        action: 'contact_form',
+                                        ...contactData
+                                    })
+                                });
+                                appsScriptSuccess = true;
+                                console.log('✅ Contact form sent to Apps Script');
+                            } catch (asError) {
+                                console.error('Contact Apps Script send failed:', asError);
+                            }
+                        }
+
+                        if (firebaseSuccess || appsScriptSuccess) {
+                            this.successMessage = `ข้อความของคุณได้รับการส่งแล้ว! เราจะตอบกลับโดยเร็วที่สุด`;
+                            this.showSuccessModal = true;
+                            
+                            // Reset form
+                            this.contactForm = {
+                                name: '',
+                                email: '',
+                                phone: '',
+                                message: ''
+                            };
+                        } else {
+                            throw new Error('ไม่สามารถส่งข้อความได้');
+                        }
+                        
+                    } catch (error) {
+                        console.error('Error submitting contact form:', error);
+                        alert('เกิดข้อผิดพลาดในการส่งข้อความ กรุณาลองใหม่อีกครั้ง');
+                    } finally {
+                        this.contactSubmitting = false;
+                    }
+                },
+                
+                setupSmoothScroll() {
+                    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                        anchor.addEventListener('click', function (e) {
+                            e.preventDefault();
+                            const target = document.querySelector(this.getAttribute('href'));
+                            if (target) {
+                                target.scrollIntoView({ behavior: 'smooth' });                               
+                            }
+                        });
+                    });
+                }
+            }
+        }
+    </script>
+</body>
+</html>
