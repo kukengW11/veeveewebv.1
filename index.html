@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="x-dns-prefetch-control" content="on"/>
   <title>VeeVee – แผ่นแปะกันยุงเม็ดบีบ จากธรรมชาติ 100% ปลอดภัยไร้ DEET ปกป้องได้นาน 24 ชม.</title>
   <meta name="description" content="VeeVee แผ่นแปะกันยุงแบบเม็ดบีบ กลิ่นธรรมชาติ 5 ชนิด ปกป้องได้นาน 24 ชั่วโมง เด็กใช้ได้ ปลอดภัยไร้ DEET" />
   <link rel="canonical" href="https://veevee.site/"/>
@@ -14,12 +15,16 @@
   <meta property="og:description" content="แผ่นแปะกันยุง VeeVee กลิ่นธรรมชาติ 5 ชนิด ปลอดภัยไร้ DEET ปกป้อง 24 ชั่วโมง" />
   <meta property="og:url" content="https://veevee.site/"/>
   <meta property="og:image" content="https://veevee.site/logo.png" />
+  <link rel="preload" as="image" href="https://i.postimg.cc/SR6rgrMb/Untitled-2r-rffd.png" fetchpriority="high"/>
+  <link rel="dns-prefetch" href="https://i.postimg.cc"/>
+  <link rel="dns-prefetch" href="https://www.gstatic.com"/>
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com"/>
   
   <!-- External Resources -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800;900&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800;900&family=Sarabun:wght@300;400;500;600;700&display=swapdisplay=swap&font-display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" media="print" onload="this.media='all'"/>
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
   
@@ -53,11 +58,15 @@
     }
     
     .section-pad { 
+      content-visibility: auto;
+      contain-intrinsic-size: 0 500px;
       padding: 5rem 0; 
     }
     
     @media (max-width: 768px) { 
       .section-pad { 
+      content-visibility: auto;
+      contain-intrinsic-size: 0 500px;
         padding: 3rem 0; 
       } 
     }
@@ -68,7 +77,7 @@
     .fade-in {
       opacity: 0;
       transform: translateY(50px);
-      transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
     
     .fade-in.visible {
@@ -81,15 +90,6 @@
     .fade-in[data-anim="up"] { transform: translateY(40px); }
     .fade-in[data-anim="zoom"] { transform: scale(0.9); }
     
-    /* Ken Burns Effect for Hero */
-    @keyframes kenburns {
-      0% { transform: scale(1) translate(0,0); }
-      100% { transform: scale(1.1) translate(3%,-3%); }
-    }
-    
-    #home .hero-image {
-      animation: kenburns 20s ease-in-out infinite alternate;
-    }
     
     /* Float Animation */
     @keyframes float {
@@ -179,6 +179,7 @@
     
     /* Scroll Progress Bar */
     #scrollProgress {
+      will-change: width;
       position: fixed;
       top: 0;
       left: 0;
@@ -240,6 +241,134 @@
         transition-duration: 0.01ms !important;
       }
     }
+    /* ===== HERO FIX + EFFECTS ===== */
+.hero-frame{
+  position: relative;
+  min-height: 520px;
+}
+
+/* มือถือ: ให้เป็นเฟรมแนวตั้งที่ “คุมกลาง” */
+@media (max-width: 640px){
+  .hero-frame{
+    min-height: 78vh;          /* ทำให้เต็มอารมณ์ 9:16 */
+    border-radius: 28px;
+  }
+}
+
+/* รูป: ทำ Ken Burns เบา ๆ */
+.hero-img{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  /* สำคัญ: คุมจุดโฟกัส (เริ่มต้นกลาง ๆ) */
+  object-position: 65% 50%;
+
+  transform: scale(1.03);
+  animation: heroKenBurns 14s ease-in-out infinite alternate;
+}
+
+@media (max-width: 640px){
+  .hero-img{
+    /* มือถือให้โฟกัสกลางจริง ๆ */
+    object-position: 50% 45%;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes heroKenBurns{
+  from { transform: scale(1.03) translateY(0); }
+  to   { transform: scale(1.08) translateY(-1%); }
+}
+
+.hero-overlay{
+  background: linear-gradient(90deg, rgba(23,36,42,0.72) 0%, rgba(23,36,42,0.35) 45%, rgba(23,36,42,0.00) 100%);
+}
+
+@media (max-width: 640px){
+  .hero-overlay{
+    /* มือถือ: overlay เข้มขึ้นด้านล่างให้อ่านง่าย */
+    background: linear-gradient(180deg,
+      rgba(23,36,42,0.55) 0%,
+      rgba(23,36,42,0.35) 40%,
+      rgba(23,36,42,0.70) 100%);
+  }
+}
+
+/* Glow soft */
+.hero-glow{
+  background:
+    radial-gradient(circle at 20% 30%, rgba(215,139,48,0.22), transparent 55%),
+    radial-gradient(circle at 70% 60%, rgba(117,145,76,0.18), transparent 60%);
+  mix-blend-mode: screen;
+  opacity: .9;
+}
+
+/* ทำให้กล่องข้อความ “ไม่ลอยผิดจุด” ในมือถือ */
+.hero-content{
+  max-width: 44rem;
+}
+@media (max-width: 640px){
+  .hero-content{
+    max-width: 26rem;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .hero-content .btn-shine{
+    width: 100%;
+  }
+}
+
+/* Badge */
+.hero-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:.4rem;
+  padding:.45rem .8rem;
+  border-radius:999px;
+  font-weight:700;
+  font-size:.85rem;
+  background: rgba(255,255,255,0.14);
+  border: 1px solid rgba(255,255,255,0.18);
+  backdrop-filter: blur(8px);
+}
+
+/* Shimmer sweep */
+.hero-shimmer{
+  position:absolute;
+  inset:-40%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,.10), transparent);
+  transform: rotate(12deg);
+  animation: heroShimmer 6s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes heroShimmer{
+  0%   { translate: -30% -10%; opacity: .0; }
+  20%  { opacity: .25; }
+  50%  { translate: 30% 10%; opacity: .12; }
+  100% { translate: 60% 20%; opacity: 0; }
+}
+
+/* Particles (เบา ๆ) */
+.hero-particles{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,.18) 1px, transparent 2px),
+    radial-gradient(circle at 80% 40%, rgba(255,255,255,.12) 1px, transparent 2px),
+    radial-gradient(circle at 60% 70%, rgba(255,255,255,.10) 1px, transparent 2px);
+  background-size: 220px 220px, 260px 260px, 300px 300px;
+  animation: particleDrift 10s ease-in-out infinite alternate;
+  opacity: .55;
+}
+@keyframes particleDrift{
+  from { transform: translateY(0); }
+  to   { transform: translateY(-10px); }
+}
+
   </style>
   
   <!-- Structured Data -->
@@ -263,34 +392,38 @@
   }
   </script>
   
-  <!-- Firebase -->
-  <script type="module">
-    try {
-      const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js');
-      const { getFirestore, collection, addDoc, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js');
-      
-      const firebaseConfig = {
-        apiKey: "AIzaSyAlUUr6ATEfDQohr5Zvdk5_C7xKJFBLem0",
-        authDomain: "veeveeweb.firebaseapp.com",
-        projectId: "veeveeweb",
-        storageBucket: "veeveeweb.firebasestorage.app",
-        messagingSenderId: "1054738271826",
-        appId: "1:1054738271826:web:c8d3ede74df35b87cc998b",
-        measurementId: "G-JNJW30SKK9"
-      };
-      
-      const app = initializeApp(firebaseConfig);
-      const db = getFirestore(app);
-      
-      window.firebaseDb = db;
-      window.firebaseAddDoc = addDoc;
-      window.firebaseCollection = collection;
-      window.firebaseServerTimestamp = serverTimestamp;
-      window.firebaseReady = true;
-    } catch (e) {
-      console.warn('Firebase initialization failed', e);
-      window.firebaseReady = false;
-    }
+  <!-- Firebase (Deferred Loading) -->
+  <script defer>
+    setTimeout(() => {
+      (async () => {
+        try {
+          const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js');
+          const { getFirestore, collection, addDoc, serverTimestamp } = await import('https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js');
+          
+          const firebaseConfig = {
+            apiKey: "AIzaSyAlUUr6ATEfDQohr5Zvdk5_C7xKJFBLem0",
+            authDomain: "veeveeweb.firebaseapp.com",
+            projectId: "veeveeweb",
+            storageBucket: "veeveeweb.firebasestorage.app",
+            messagingSenderId: "1054738271826",
+            appId: "1:1054738271826:web:c8d3ede74df35b87cc998b",
+            measurementId: "G-JNJW30SKK9"
+          };
+          
+          const app = initializeApp(firebaseConfig);
+          const db = getFirestore(app);
+          
+          window.firebaseDb = db;
+          window.firebaseAddDoc = addDoc;
+          window.firebaseCollection = collection;
+          window.firebaseServerTimestamp = serverTimestamp;
+          window.firebaseReady = true;
+        } catch (e) {
+          console.warn('Firebase initialization deferred', e);
+          window.firebaseReady = false;
+        }
+      })();
+    }, 500);
   </script>
 </head>
 
@@ -299,8 +432,8 @@
   <!-- Scroll Progress Bar -->
   <div id="scrollProgress"></div>
   
-  <!-- Navigation Bar - สีครีม -->
-  <nav class="fixed top-0 w-full z-50 bg-accent/95 backdrop-blur-md shadow-md transition-all duration-300">
+  <!-- Navigation Bar - สีขาว -->
+  <nav class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-md shadow-md transition-all duration-300">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-20">
         
@@ -392,58 +525,87 @@
   </style>
 
   
-  <!-- Hero Section - รองรับมือถือ 9:16 -->
-  <section id="home" class="pt-24 pb-8">
-    <div class="max-w-[1400px] mx-auto px-4">
-      <div class="relative rounded-3xl overflow-hidden shadow-2xl">
-        <div class="relative w-full aspect-[9/16] sm:aspect-[16/9] md:aspect-[2.4/1] lg:aspect-[3/1]">
-          <img 
-            src="https://i.postimg.cc/SR6rgrMb/Untitled-2r-rffd.png" 
-            alt="VeeVee Hero" 
-            class="hero-image absolute inset-0 w-full h-full object-cover object-center" 
-            loading="eager"
-          />
-          <div class="absolute inset-0 bg-gradient-to-r from-[#17242A]/60 via-[#17242A]/30 to-transparent"></div>
-          
-          <div class="absolute left-6 sm:left-10 top-6 sm:top-10 lg:top-14 max-w-xl text-white space-y-4 lg:space-y-6">
-            <div class="mb-4 lg:mb-6 float">
-              <img 
-                src="https://i.postimg.cc/h4YCb73G/AR-13.png" 
-                alt="VeeVee Logo" 
-                class="h-16 lg:h-20 w-auto drop-shadow-2xl"
-              >
+<!-- Hero Section (FIX: Desktop/Mobile image + centered + effects) -->
+<section id="home" class="pt-32 pb-12 bg-gradient-to-br from-accent/30 via-green-light/20 to-white relative overflow-hidden">
+  <div class="max-w-[1400px] mx-auto px-4 relative z-10">
+    <div class="relative rounded-3xl overflow-hidden shadow-2xl hero-frame">
+
+      <!-- เอฟเฟกต์เม็ดแสงลอย -->
+      <div class="hero-particles" aria-hidden="true"></div>
+
+      <!-- รูปภาพ: แยก Desktop/Mobile -->
+      <picture>
+        <!-- Mobile -->
+        <source media="(max-width: 640px)" srcset=https://i.postimg.cc/L6gvm9Z0/d-sin-th-y-ngmi-di-t-ngch-x-(1).png>
+        <!-- Desktop -->
+        <img
+          src="https://i.postimg.cc/SR6rgrMb/Untitled-2r-rffd.png"
+          alt="VeeVee Hero"
+          class="hero-img"
+          loading="eager"
+          decoding="async"
+        />
+      </picture>
+
+      <!-- Overlay + Glow -->
+      <div class="absolute inset-0 hero-overlay"></div>
+      
+
+      <!-- Content -->
+      <div class="absolute inset-0 flex items-center">
+        <div class="w-full px-6 sm:px-10 lg:px-14">
+          <div class="max-w-xl text-white space-y-4 lg:space-y-6 hero-content">
+            <div class="mb-3 lg:mb-5 float">
+              <img
+                src="https://i.postimg.cc/h4YCb73G/AR-13.png"
+                alt="VeeVee Logo"
+                class="h-14 sm:h-16 lg:h-20 w-auto drop-shadow-2xl"
+              />
             </div>
-            
+
             <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight drop-shadow-lg">
               แผ่นแปะกันยุง วี วี<br/>
               <span class="text-2xl sm:text-3xl lg:text-4xl text-accent">-แปะไว้อุ่นใจนานกว่า-</span>
             </h1>
-            
+
             <p class="text-base sm:text-lg lg:text-xl leading-relaxed drop-shadow-md font-medium">
               ป้องกันยุงด้วย Microencapsulation<br/>
               ปล่อยกลิ่นยาวนานสูงสุด 24 ชั่วโมง
             </p>
-            
+
             <div class="mt-6 flex flex-col sm:flex-row gap-3 lg:gap-4">
-              <a 
-                href="#why" 
+              <a
+                href="#why"
                 class="bg-accent text-secondary px-6 lg:px-8 py-3 lg:py-4 rounded-full font-semibold hover:bg-accent/90 transition-all duration-300 inline-flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105 text-base lg:text-lg btn-shine"
               >
                 <i class="fas fa-info-circle mr-2"></i> ดูรายละเอียดสินค้า
               </a>
-              
-              <button 
-                @click="openOrderModal()" 
+
+              <button
+                @click="openOrderModal()"
                 class="bg-primary text-white px-6 lg:px-8 py-3 lg:py-4 rounded-full font-semibold hover:bg-primary/90 transition-all duration-300 inline-flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105 text-base lg:text-lg pulse-glow btn-shine"
               >
                 <i class="fas fa-shopping-cart mr-2"></i> สั่งซื้อเลย
               </button>
             </div>
+
+            <!-- mini badges (เพิ่มลูกเล่น/ความน่าเชื่อถือ) -->
+            <div class="pt-3 flex flex-wrap gap-2">
+              <span class="hero-badge">ปลอดภัยไร้ DEET</span>
+              <span class="hero-badge">อยู่ได้นาน 24 ชม.</span>
+              <span class="hero-badge">ปรับความแรงได้ 1-4 เม็ด</span>
+            </div>
+
           </div>
         </div>
       </div>
+
+      <!-- Shimmer (ไฮไลท์แสงวิ่ง) -->
+      <div class="hero-shimmer" aria-hidden="true"></div>
     </div>
-  </section>
+  </div>
+</section>
+
   
   <!-- Why VeeVee Section -->
   <section id="why" class="section-pad bg-gradient-to-b from-white via-accent/10 to-white">
@@ -1180,7 +1342,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center">
         <div class="flex items-center justify-center gap-4 mb-6">
-          <img src="https://i.postimg.cc/h4YCb73G/AR-13.png" alt="VeeVee" class="h-12 w-auto"/>
+          <img loading="lazy" decoding="async" src="https://i.postimg.cc/h4YCb73G/AR-13.png" alt="VeeVee" class="h-12 w-auto"/>
           <span class="text-3xl font-bold">VeeVee</span>
         </div>
         <p class="text-white/80 text-lg mb-4">แผ่นแปะกันยุงจากธรรมชาติ ปกป้องคุณและครอบครัวอย่างปลอดภัย</p>
@@ -1202,7 +1364,7 @@
       <!-- Product Preview -->
       <div class="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl p-6 mb-8">
         <div class="flex items-center space-x-4">
-          <img src="https://i.postimg.cc/3Rz3yLqT/po-s-te-xr-xic-Vee-Vee.png" alt="VeeVee Product" class="w-20 h-20 rounded-xl object-cover"/>
+          <img loading="lazy" decoding="async" src="https://i.postimg.cc/3Rz3yLqT/po-s-te-xr-xic-Vee-Vee.png" alt="VeeVee Product" class="w-20 h-20 rounded-xl object-cover"/>
           <div class="flex-1">
             <h3 class="text-xl font-semibold text-secondary mb-2">VeeVee Anti-Mosquito Patch</h3>
             <p class="text-gray-700">12 ชิ้น/ซอง - ป้องกันยุง 24 ชั่วโมง</p>
@@ -1816,8 +1978,8 @@
           
           // Intersection Observer for animations
           const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
+            threshold: 0.05,
+            rootMargin: '50px 0px 0px 0px'
           };
           
           const observer = new IntersectionObserver((entries) => {
