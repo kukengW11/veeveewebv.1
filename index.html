@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
   <meta http-equiv="x-dns-prefetch-control" content="on"/>
   <title>VeeVee – แผ่นแปะกันยุงเม็ดบีบ จากธรรมชาติ 100% ปลอดภัยไร้ DEET ปกป้องได้นาน 24 ชม.</title>
   <meta name="description" content="VeeVee แผ่นแปะกันยุงแบบเม็ดบีบ กลิ่นธรรมชาติ 5 ชนิด ปกป้องได้นาน 24 ชั่วโมง เด็กใช้ได้ ปลอดภัยไร้ DEET" />
@@ -23,7 +23,7 @@
   <!-- External Resources -->
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800;900&family=Sarabun:wght@300;400;500;600;700&display=swapdisplay=swap&font-display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800;900&family=Sarabun:wght@300;400;500;600;700&display=swap&font-display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" media="print" onload="this.media='all'"/>
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -65,19 +65,142 @@
     
     @media (max-width: 768px) { 
       .section-pad { 
-      content-visibility: auto;
-      contain-intrinsic-size: 0 500px;
-        padding: 3rem 0; 
+        content-visibility: auto;
+        contain-intrinsic-size: 0 500px;
+        padding: 2.5rem 0; 
       } 
     }
     
-    /* ===== ENHANCED ANIMATIONS ===== */
+    /* ===== MOBILE 9:16 OPTIMIZATION ===== */
+    @media (max-width: 640px) {
+      /* Ensure all images fit within viewport */
+      img {
+        max-width: 100%;
+        height: auto;
+        object-fit: contain;
+      }
+      
+      /* Fix container widths */
+      .container, .max-w-7xl, .max-w-\[1280px\], .max-w-\[1400px\] {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+      }
+      
+      /* Responsive text sizes */
+      h1 { font-size: 2rem !important; line-height: 1.2 !important; }
+      h2 { font-size: 1.75rem !important; line-height: 1.3 !important; }
+      h3 { font-size: 1.5rem !important; line-height: 1.3 !important; }
+      h4 { font-size: 1.25rem !important; line-height: 1.4 !important; }
+      p { font-size: 0.95rem !important; line-height: 1.6 !important; }
+      
+      /* Fix button sizes */
+      button, .btn, a[class*="btn"] {
+        font-size: 0.95rem !important;
+        padding: 0.75rem 1.5rem !important;
+      }
+    }
     
-    /* Fade In with Direction */
+    /* ===== HERO SECTION - MOBILE OPTIMIZED ===== */
+    .hero-frame {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+    }
+    
+    /* Desktop */
+    @media (min-width: 641px) {
+      .hero-frame {
+        min-height: 500px;
+        aspect-ratio: 2.4/1;
+      }
+    }
+    
+    /* Mobile 9:16 */
+    @media (max-width: 640px) {
+      .hero-frame {
+        min-height: unset;
+        aspect-ratio: 9/16;
+        max-height: 85vh;
+        border-radius: 1.5rem;
+      }
+    }
+    
+    .hero-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    /* Desktop image positioning */
+    @media (min-width: 641px) {
+      .hero-img {
+        object-position: 65% 50%;
+      }
+    }
+    
+    /* Mobile image positioning - centered */
+    @media (max-width: 640px) {
+      .hero-img {
+        object-position: center center;
+      }
+    }
+    
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+    
+    /* Desktop overlay */
+    @media (min-width: 641px) {
+      .hero-overlay {
+        background: linear-gradient(90deg, 
+          rgba(23,36,42,0.75) 0%, 
+          rgba(23,36,42,0.4) 45%, 
+          rgba(23,36,42,0.1) 100%);
+      }
+    }
+    
+    /* Mobile overlay - stronger at bottom for readability */
+    @media (max-width: 640px) {
+      .hero-overlay {
+        background: linear-gradient(180deg,
+          rgba(23,36,42,0.4) 0%,
+          rgba(23,36,42,0.3) 40%,
+          rgba(23,36,42,0.8) 100%);
+      }
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+    
+    /* Desktop content positioning */
+    @media (min-width: 641px) {
+      .hero-content {
+        max-width: 42rem;
+      }
+    }
+    
+    /* Mobile content positioning */
+    @media (max-width: 640px) {
+      .hero-content {
+        max-width: 100%;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+    
+    /* ===== ENHANCED ANIMATIONS ===== */
     .fade-in {
       opacity: 0;
-      transform: translateY(50px);
-      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translateY(30px);
+      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
     
     .fade-in.visible {
@@ -85,16 +208,15 @@
       transform: translateY(0);
     }
     
-    .fade-in[data-anim="left"] { transform: translateX(-40px); }
-    .fade-in[data-anim="right"] { transform: translateX(40px); }
-    .fade-in[data-anim="up"] { transform: translateY(40px); }
-    .fade-in[data-anim="zoom"] { transform: scale(0.9); }
-    
+    .fade-in[data-anim="left"] { transform: translateX(-30px); }
+    .fade-in[data-anim="right"] { transform: translateX(30px); }
+    .fade-in[data-anim="up"] { transform: translateY(30px); }
+    .fade-in[data-anim="zoom"] { transform: scale(0.95); }
     
     /* Float Animation */
     @keyframes float {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-15px); }
+      50% { transform: translateY(-10px); }
     }
     
     .float {
@@ -165,8 +287,8 @@
     }
     
     .hover-lift:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+      transform: translateY(-6px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
     }
     
     /* Card Stagger */
@@ -231,6 +353,28 @@
       to { stroke-dashoffset: 0; }
     }
     
+    /* Mobile Image Cards - Fix sizing */
+    @media (max-width: 640px) {
+      .feature-card img,
+      .ingredient-card img,
+      .tech-card img {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        object-fit: contain !important;
+      }
+      
+      /* Fix grid layouts on mobile */
+      .grid {
+        gap: 1rem !important;
+      }
+      
+      /* Ensure cards don't overflow */
+      .rounded-3xl, .rounded-2xl {
+        overflow: hidden;
+      }
+    }
+    
     /* Prevent animations on reduced motion */
     @media (prefers-reduced-motion: reduce) {
       *,
@@ -241,134 +385,6 @@
         transition-duration: 0.01ms !important;
       }
     }
-    /* ===== HERO FIX + EFFECTS ===== */
-.hero-frame{
-  position: relative;
-  min-height: 520px;
-}
-
-/* มือถือ: ให้เป็นเฟรมแนวตั้งที่ “คุมกลาง” */
-@media (max-width: 640px){
-  .hero-frame{
-    min-height: 78vh;          /* ทำให้เต็มอารมณ์ 9:16 */
-    border-radius: 28px;
-  }
-}
-
-/* รูป: ทำ Ken Burns เบา ๆ */
-.hero-img{
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-
-  /* สำคัญ: คุมจุดโฟกัส (เริ่มต้นกลาง ๆ) */
-  object-position: 65% 50%;
-
-  transform: scale(1.03);
-  animation: heroKenBurns 14s ease-in-out infinite alternate;
-}
-
-@media (max-width: 640px){
-  .hero-img{
-    /* มือถือให้โฟกัสกลางจริง ๆ */
-    object-position: 50% 45%;
-    transform: scale(1.06);
-  }
-}
-
-@keyframes heroKenBurns{
-  from { transform: scale(1.03) translateY(0); }
-  to   { transform: scale(1.08) translateY(-1%); }
-}
-
-.hero-overlay{
-  background: linear-gradient(90deg, rgba(23,36,42,0.72) 0%, rgba(23,36,42,0.35) 45%, rgba(23,36,42,0.00) 100%);
-}
-
-@media (max-width: 640px){
-  .hero-overlay{
-    /* มือถือ: overlay เข้มขึ้นด้านล่างให้อ่านง่าย */
-    background: linear-gradient(180deg,
-      rgba(23,36,42,0.55) 0%,
-      rgba(23,36,42,0.35) 40%,
-      rgba(23,36,42,0.70) 100%);
-  }
-}
-
-/* Glow soft */
-.hero-glow{
-  background:
-    radial-gradient(circle at 20% 30%, rgba(215,139,48,0.22), transparent 55%),
-    radial-gradient(circle at 70% 60%, rgba(117,145,76,0.18), transparent 60%);
-  mix-blend-mode: screen;
-  opacity: .9;
-}
-
-/* ทำให้กล่องข้อความ “ไม่ลอยผิดจุด” ในมือถือ */
-.hero-content{
-  max-width: 44rem;
-}
-@media (max-width: 640px){
-  .hero-content{
-    max-width: 26rem;
-    margin: 0 auto;
-    text-align: center;
-  }
-  .hero-content .btn-shine{
-    width: 100%;
-  }
-}
-
-/* Badge */
-.hero-badge{
-  display:inline-flex;
-  align-items:center;
-  gap:.4rem;
-  padding:.45rem .8rem;
-  border-radius:999px;
-  font-weight:700;
-  font-size:.85rem;
-  background: rgba(255,255,255,0.14);
-  border: 1px solid rgba(255,255,255,0.18);
-  backdrop-filter: blur(8px);
-}
-
-/* Shimmer sweep */
-.hero-shimmer{
-  position:absolute;
-  inset:-40%;
-  background: linear-gradient(120deg, transparent, rgba(255,255,255,.10), transparent);
-  transform: rotate(12deg);
-  animation: heroShimmer 6s ease-in-out infinite;
-  pointer-events:none;
-}
-@keyframes heroShimmer{
-  0%   { translate: -30% -10%; opacity: .0; }
-  20%  { opacity: .25; }
-  50%  { translate: 30% 10%; opacity: .12; }
-  100% { translate: 60% 20%; opacity: 0; }
-}
-
-/* Particles (เบา ๆ) */
-.hero-particles{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  background-image:
-    radial-gradient(circle at 20% 30%, rgba(255,255,255,.18) 1px, transparent 2px),
-    radial-gradient(circle at 80% 40%, rgba(255,255,255,.12) 1px, transparent 2px),
-    radial-gradient(circle at 60% 70%, rgba(255,255,255,.10) 1px, transparent 2px);
-  background-size: 220px 220px, 260px 260px, 300px 300px;
-  animation: particleDrift 10s ease-in-out infinite alternate;
-  opacity: .55;
-}
-@keyframes particleDrift{
-  from { transform: translateY(0); }
-  to   { transform: translateY(-10px); }
-}
-
   </style>
   
   <!-- Structured Data -->
@@ -432,19 +448,19 @@
   <!-- Scroll Progress Bar -->
   <div id="scrollProgress"></div>
   
-  <!-- Navigation Bar - สีขาว -->
+  <!-- Navigation Bar -->
   <nav class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-md shadow-md transition-all duration-300">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-20">
+      <div class="flex justify-between items-center h-16 sm:h-20">
         
         <!-- Logo -->
-        <a href="#home" class="flex items-center gap-3 group">
+        <a href="#home" class="flex items-center gap-2 sm:gap-3 group">
           <img 
             src="https://i.postimg.cc/h4YCb73G/AR-13.png" 
             alt="VeeVee Logo" 
-            class="h-10 w-auto transition-all duration-300 group-hover:scale-110 group-hover:rotate-6"
+            class="h-8 sm:h-10 w-auto transition-all duration-300 group-hover:scale-110 group-hover:rotate-6"
           >
-          <span class="text-2xl font-bold text-secondary transition-colors duration-300 group-hover:text-primary">
+          <span class="text-xl sm:text-2xl font-bold text-secondary transition-colors duration-300 group-hover:text-primary">
             VeeVee
           </span>
         </a>
@@ -460,10 +476,10 @@
         </div>
         
         <!-- CTA & Hamburger -->
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-2 sm:gap-4">
           <button 
             @click="openOrderModal()" 
-            class="hidden sm:block bg-primary text-white px-8 py-3 rounded-full font-semibold hover:bg-primary/90 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 btn-shine pulse-glow"
+            class="hidden sm:block bg-primary text-white px-4 sm:px-8 py-2 sm:py-3 rounded-full font-semibold text-sm sm:text-base hover:bg-primary/90 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 btn-shine pulse-glow"
           >
             สั่งซื้อเลย
           </button>
@@ -484,7 +500,7 @@
     
     <!-- Mobile Menu Slide-in -->
     <div 
-      class="mobile-menu fixed top-20 right-0 w-full sm:w-80 h-[calc(100vh-5rem)] bg-white shadow-2xl lg:hidden overflow-y-auto" 
+      class="mobile-menu fixed top-16 sm:top-20 right-0 w-full sm:w-80 h-[calc(100vh-4rem)] sm:h-[calc(100vh-5rem)] bg-white shadow-2xl lg:hidden overflow-y-auto" 
       :class="mobileMenuOpen ? 'open' : ''"
     >
       <div class="p-6 space-y-4">
@@ -525,105 +541,125 @@
   </style>
 
   
-<!-- Hero Section (FIX: Desktop/Mobile image + centered + effects) -->
-<section id="home" class="pt-32 pb-12 bg-gradient-to-br from-accent/30 via-green-light/20 to-white relative overflow-hidden">
-  <div class="max-w-[1400px] mx-auto px-4 relative z-10">
-    <div class="relative rounded-3xl overflow-hidden shadow-2xl hero-frame">
+  <!-- Hero Section - MOBILE OPTIMIZED -->
+  <section id="home" class="pt-20 sm:pt-32 pb-8 sm:pb-12 bg-gradient-to-br from-accent/30 via-green-light/20 to-white relative overflow-hidden">
+    <div class="max-w-[1400px] mx-auto px-4 relative z-10">
+      <div class="hero-frame rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl">
+        
+        <!-- รูปภาพ: แยก Desktop/Mobile -->
+        <picture>
+          <!-- Mobile: 9:16 -->
+          <source 
+            media="(max-width: 640px)" 
+            srcset="https://i.postimg.cc/L6gvm9Z0/d-sin-th-y-ngmi-di-t-ngch-x-(1).png"
+          >
+          <!-- Desktop -->
+          <img
+            src="https://i.postimg.cc/SR6rgrMb/Untitled-2r-rffd.png"
+            alt="VeeVee Hero"
+            class="hero-img"
+            loading="eager"
+            decoding="async"
+          />
+        </picture>
 
-      <!-- เอฟเฟกต์เม็ดแสงลอย -->
-      <div class="hero-particles" aria-hidden="true"></div>
+        <!-- Overlay -->
+        <div class="hero-overlay"></div>
 
-      <!-- รูปภาพ: แยก Desktop/Mobile -->
-      <picture>
-        <!-- Mobile -->
-        <source media="(max-width: 640px)" srcset=https://i.postimg.cc/L6gvm9Z0/d-sin-th-y-ngmi-di-t-ngch-x-(1).png>
-        <!-- Desktop -->
-        <img
-          src="https://i.postimg.cc/SR6rgrMb/Untitled-2r-rffd.png"
-          alt="VeeVee Hero"
-          class="hero-img"
-          loading="eager"
-          decoding="async"
-        />
-      </picture>
-
-      <!-- Overlay + Glow -->
-      <div class="absolute inset-0 hero-overlay"></div>
-      
-
-      <!-- Content -->
-      <div class="absolute inset-0 flex items-center">
-        <div class="w-full px-6 sm:px-10 lg:px-14">
-          <div class="max-w-xl text-white space-y-4 lg:space-y-6 hero-content">
-            <div class="mb-3 lg:mb-5 float">
+        <!-- Content -->
+        <div class="absolute inset-0 flex items-end sm:items-center px-4 sm:px-10 lg:px-14 pb-8 sm:pb-0">
+          <div class="hero-content text-white space-y-3 sm:space-y-6 w-full">
+            
+            <!-- Logo -->
+            <div class="mb-2 sm:mb-5 float">
               <img
                 src="https://i.postimg.cc/h4YCb73G/AR-13.png"
                 alt="VeeVee Logo"
-                class="h-14 sm:h-16 lg:h-20 w-auto drop-shadow-2xl"
+                class="h-10 sm:h-16 lg:h-20 w-auto drop-shadow-2xl mx-auto sm:mx-0"
               />
             </div>
 
-            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight drop-shadow-lg">
+            <!-- Heading -->
+            <h1 class="text-2xl sm:text-5xl lg:text-6xl font-bold leading-tight drop-shadow-lg">
               แผ่นแปะกันยุง วี วี<br/>
-              <span class="text-2xl sm:text-3xl lg:text-4xl text-accent">-แปะไว้อุ่นใจนานกว่า-</span>
+              <span class="text-xl sm:text-3xl lg:text-4xl text-accent">-แปะไว้อุ่นใจนานกว่า-</span>
             </h1>
 
-            <p class="text-base sm:text-lg lg:text-xl leading-relaxed drop-shadow-md font-medium">
+            <!-- Description -->
+            <p class="text-sm sm:text-lg lg:text-xl leading-relaxed drop-shadow-md font-medium">
               ป้องกันยุงด้วย Microencapsulation<br/>
               ปล่อยกลิ่นยาวนานสูงสุด 24 ชั่วโมง
             </p>
 
-            <div class="mt-6 flex flex-col sm:flex-row gap-3 lg:gap-4">
+            <!-- Buttons -->
+            <div class="mt-4 sm:mt-6 flex flex-col sm:flex-row gap-2 sm:gap-4 w-full sm:w-auto">
               <a
                 href="#why"
-                class="bg-accent text-secondary px-6 lg:px-8 py-3 lg:py-4 rounded-full font-semibold hover:bg-accent/90 transition-all duration-300 inline-flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105 text-base lg:text-lg btn-shine"
+                class="bg-accent text-secondary px-4 sm:px-8 py-2.5 sm:py-4 rounded-full font-semibold text-sm sm:text-lg hover:bg-accent/90 transition-all duration-300 inline-flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105 btn-shine"
               >
                 <i class="fas fa-info-circle mr-2"></i> ดูรายละเอียดสินค้า
               </a>
 
               <button
                 @click="openOrderModal()"
-                class="bg-primary text-white px-6 lg:px-8 py-3 lg:py-4 rounded-full font-semibold hover:bg-primary/90 transition-all duration-300 inline-flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105 text-base lg:text-lg pulse-glow btn-shine"
+                class="bg-primary text-white px-4 sm:px-8 py-2.5 sm:py-4 rounded-full font-semibold text-sm sm:text-lg hover:bg-primary/90 transition-all duration-300 inline-flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105 pulse-glow btn-shine"
               >
                 <i class="fas fa-shopping-cart mr-2"></i> สั่งซื้อเลย
               </button>
             </div>
 
-            <!-- mini badges (เพิ่มลูกเล่น/ความน่าเชื่อถือ) -->
-            <div class="pt-3 flex flex-wrap gap-2">
-              <span class="hero-badge">ปลอดภัยไร้ DEET</span>
-              <span class="hero-badge">อยู่ได้นาน 24 ชม.</span>
-              <span class="hero-badge">ปรับความแรงได้ 1-4 เม็ด</span>
+            <!-- Mini badges -->
+            <div class="pt-2 sm:pt-3 flex flex-wrap gap-1.5 sm:gap-2 justify-center sm:justify-start">
+              <span class="hero-badge text-xs sm:text-sm">ปลอดภัยไร้ DEET</span>
+              <span class="hero-badge text-xs sm:text-sm">อยู่ได้นาน 24 ชม.</span>
+              <span class="hero-badge text-xs sm:text-sm hidden sm:inline-flex">ปรับความแรงได้ 1-4 เม็ด</span>
             </div>
 
           </div>
         </div>
+
       </div>
-
-      <!-- Shimmer (ไฮไลท์แสงวิ่ง) -->
-      <div class="hero-shimmer" aria-hidden="true"></div>
     </div>
-  </div>
-</section>
+  </section>
 
+  <style>
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.4rem 0.8rem;
+      border-radius: 999px;
+      font-weight: 600;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.2);
+      backdrop-filter: blur(8px);
+    }
+    
+    @media (max-width: 640px) {
+      .hero-badge {
+        font-size: 0.75rem;
+        padding: 0.3rem 0.6rem;
+      }
+    }
+  </style>
   
-  <!-- Why VeeVee Section -->
+  <!-- Why VeeVee Section - MOBILE OPTIMIZED -->
   <section id="why" class="section-pad bg-gradient-to-b from-white via-accent/10 to-white">
     <div class="max-w-[1280px] mx-auto px-4">
-      <div class="text-center space-y-2 mb-12 fade-in" data-anim="up">
-        <h2 class="text-4xl md:text-5xl font-bold text-secondary">
+      <div class="text-center space-y-2 mb-8 sm:mb-12 fade-in" data-anim="up">
+        <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-secondary">
           ทำไมต้องเลือก <span class="text-primary">VEE VEE?</span>
         </h2>
-        <p class="text-lg text-secondary/80">เหมาะสมกับชีวิตประจำวันของคุณ</p>
+        <p class="text-base sm:text-lg text-secondary/80">เหมาะสมกับชีวิตประจำวันของคุณ</p>
       </div>
       
-      <div class="grid lg:grid-cols-2 gap-8 items-center">
+      <div class="grid lg:grid-cols-2 gap-6 sm:gap-8 items-center">
         <!-- Features List -->
         <div class="space-y-4">
           <!-- Feature 1 -->
-          <div class="bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 border border-accent/30 fade-in card-stagger hover-lift" data-anim="left">
-            <div class="flex items-center gap-6">
-              <div class="flex-shrink-0 w-32 h-32 flex items-center justify-center">
+          <div class="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-xl hover:shadow-2xl transition-all duration-500 border border-accent/30 fade-in card-stagger hover-lift feature-card" data-anim="left">
+            <div class="flex items-center gap-3 sm:gap-6">
+              <div class="flex-shrink-0 w-20 h-20 sm:w-32 sm:h-32 flex items-center justify-center">
                 <img 
                   src="https://i.postimg.cc/9fZCzYYL/section-2-icon.png" 
                   alt="24hr" 
@@ -632,10 +668,10 @@
                 >
               </div>
               <div class="flex-1">
-                <h3 class="font-bold text-xl lg:text-2xl text-secondary mb-2">
+                <h3 class="font-bold text-lg sm:text-xl lg:text-2xl text-secondary mb-1 sm:mb-2">
                   ปกป้องยาวนานสูงสุด 24 ชั่วโมง
                 </h3>
-                <p class="text-secondary/70 text-base">
+                <p class="text-secondary/70 text-sm sm:text-base">
                   ปล่อยกลิ่นช้าๆ อย่างสม่ำเสมอด้วยระบบ Slow Release
                 </p>
               </div>
@@ -643,9 +679,9 @@
           </div>
           
           <!-- Feature 2 -->
-          <div class="bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 border border-primary/20 fade-in card-stagger hover-lift" data-anim="left">
-            <div class="flex items-center gap-6">
-              <div class="flex-shrink-0 w-32 h-32 flex items-center justify-center">
+          <div class="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-xl hover:shadow-2xl transition-all duration-500 border border-primary/20 fade-in card-stagger hover-lift feature-card" data-anim="left">
+            <div class="flex items-center gap-3 sm:gap-6">
+              <div class="flex-shrink-0 w-20 h-20 sm:w-32 sm:h-32 flex items-center justify-center">
                 <img 
                   src="https://i.postimg.cc/vmFdR6wH/5.png" 
                   alt="Natural" 
@@ -654,10 +690,10 @@
                 >
               </div>
               <div class="flex-1">
-                <h3 class="font-bold text-xl lg:text-2xl text-secondary mb-2">
+                <h3 class="font-bold text-lg sm:text-xl lg:text-2xl text-secondary mb-1 sm:mb-2">
                   สารสกัดจากน้ำมันหอมระเหยธรรมชาติ
                 </h3>
-                <p class="text-secondary/70 text-base">
+                <p class="text-secondary/70 text-sm sm:text-base">
                   อ่อนโยน ไม่สัมผัสผิว เหมาะสำหรับทุกเพศทุกวัย
                 </p>
               </div>
@@ -665,9 +701,9 @@
           </div>
           
           <!-- Feature 3 -->
-          <div class="bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 border border-green/20 fade-in card-stagger hover-lift" data-anim="left">
-            <div class="flex items-center gap-6">
-              <div class="flex-shrink-0 w-32 h-32 flex items-center justify-center">
+          <div class="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-xl hover:shadow-2xl transition-all duration-500 border border-green/20 fade-in card-stagger hover-lift feature-card" data-anim="left">
+            <div class="flex items-center gap-3 sm:gap-6">
+              <div class="flex-shrink-0 w-20 h-20 sm:w-32 sm:h-32 flex items-center justify-center">
                 <img 
                   src="https://i.postimg.cc/zBpmRtbT/3.png" 
                   alt="Strong" 
@@ -676,10 +712,10 @@
                 >
               </div>
               <div class="flex-1">
-                <h3 class="font-bold text-xl lg:text-2xl text-secondary mb-2">
+                <h3 class="font-bold text-lg sm:text-xl lg:text-2xl text-secondary mb-1 sm:mb-2">
                   ติดแน่น ไม่หลุดง่าย
                 </h3>
-                <p class="text-secondary/70 text-base">
+                <p class="text-secondary/70 text-sm sm:text-base">
                   ออกแบบให้ทนต่อการเขยับตัว - เดิน วิ่ง ทำกิจกรรมเบาๆ ได้หมด
                 </p>
               </div>
@@ -687,9 +723,9 @@
           </div>
           
           <!-- Feature 4 -->
-          <div class="bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 border border-secondary/10 fade-in card-stagger hover-lift" data-anim="left">
-            <div class="flex items-center gap-6">
-              <div class="flex-shrink-0 w-32 h-32 flex items-center justify-center">
+          <div class="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-xl hover:shadow-2xl transition-all duration-500 border border-secondary/10 fade-in card-stagger hover-lift feature-card" data-anim="left">
+            <div class="flex items-center gap-3 sm:gap-6">
+              <div class="flex-shrink-0 w-20 h-20 sm:w-32 sm:h-32 flex items-center justify-center">
                 <img 
                   src="https://i.postimg.cc/J4swGQ1y/4.png" 
                   alt="Control" 
@@ -698,10 +734,10 @@
                 >
               </div>
               <div class="flex-1">
-                <h3 class="font-bold text-xl lg:text-2xl text-secondary mb-2">
+                <h3 class="font-bold text-lg sm:text-xl lg:text-2xl text-secondary mb-1 sm:mb-2">
                   ควบคุมระดับกลิ่นได้เอง
                 </h3>
-                <p class="text-secondary/70 text-base">
+                <p class="text-secondary/70 text-sm sm:text-base">
                   เลือกบีบ 1-4 เม็ดตามความต้องการ
                 </p>
               </div>
@@ -710,18 +746,18 @@
         </div>
         
         <!-- Product Image -->
-        <div class="fade-in flex justify-center" data-anim="right">
-          <div class="relative w-full max-w-lg">
+        <div class="fade-in flex justify-center mt-6 lg:mt-0" data-anim="right">
+          <div class="relative w-full max-w-sm sm:max-w-lg">
             <!-- Floating orbs -->
-            <div class="pointer-events-none absolute -z-10 -top-6 -left-6 w-40 h-40 rounded-full bg-primary/30 blur-3xl float"></div>
-            <div class="pointer-events-none absolute -z-10 -bottom-8 -right-8 w-44 h-44 rounded-full bg-green/30 blur-3xl float-delay-1"></div>
-            <div class="pointer-events-none absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full bg-accent/40 blur-3xl float-delay-2"></div>
+            <div class="pointer-events-none absolute -z-10 -top-6 -left-6 w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-primary/30 blur-3xl float"></div>
+            <div class="pointer-events-none absolute -z-10 -bottom-8 -right-8 w-36 h-36 sm:w-44 sm:h-44 rounded-full bg-green/30 blur-3xl float-delay-1"></div>
+            <div class="pointer-events-none absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 sm:w-48 sm:h-48 rounded-full bg-accent/40 blur-3xl float-delay-2"></div>
             
-            <div class="relative rounded-[32px] p-3 bg-gradient-to-br from-white via-accent/30 to-primary/10 shadow-2xl ring-1 ring-primary/20 transform hover:scale-105 transition-transform duration-500">
+            <div class="relative rounded-3xl p-2 sm:p-3 bg-gradient-to-br from-white via-accent/30 to-primary/10 shadow-2xl ring-1 ring-primary/20 transform hover:scale-105 transition-transform duration-500">
               <img 
                 src="https://i.postimg.cc/XNHc7R7v/S-19800074.png" 
                 alt="Essential Oils" 
-                class="block w-full h-auto object-cover rounded-[26px]" 
+                class="block w-full h-auto object-cover rounded-2xl sm:rounded-[26px]" 
               />
             </div>
           </div>
@@ -730,75 +766,75 @@
     </div>
   </section>
   
-  <!-- Technology Section -->
+  <!-- Technology Section - MOBILE OPTIMIZED -->
   <section id="tech" class="section-pad bg-gradient-to-br from-green-50 to-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-16 fade-in" data-anim="up">
-        <h2 class="text-4xl lg:text-5xl font-bold text-secondary mb-4">
+      <div class="text-center mb-10 sm:mb-16 fade-in" data-anim="up">
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-secondary mb-2 sm:mb-4">
           Technology Highlight
         </h2>
-        <p class="text-xl text-gray-600">(Microencapsulation)</p>
+        <p class="text-lg sm:text-xl text-gray-600">(Microencapsulation)</p>
       </div>
       
-      <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <div class="grid lg:grid-cols-2 gap-8 sm:gap-12 items-center">
         <!-- Tech Image -->
-        <div class="fade-in" data-anim="left">
+        <div class="fade-in tech-card" data-anim="left">
           <img 
             src="https://i.postimg.cc/bwvqMTyP/phae-th-the-r-nwe-p.png" 
             alt="Microencapsulation Technology" 
-            class="w-full h-auto rounded-3xl shadow-2xl transform hover:scale-105 transition-transform duration-500"
+            class="w-full h-auto rounded-2xl sm:rounded-3xl shadow-2xl transform hover:scale-105 transition-transform duration-500"
           />
         </div>
         
         <!-- Tech Details -->
-        <div class="space-y-8 fade-in" data-anim="right">
-          <h3 class="text-3xl lg:text-4xl font-bold text-secondary leading-tight">
+        <div class="space-y-6 sm:space-y-8 fade-in" data-anim="right">
+          <h3 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-secondary leading-tight">
             เทคโนโลยี<br/>
             <span class="text-primary">Microencapsulation</span><br/>
             คือหัวใจของ VEE VEE
           </h3>
           
-          <div class="space-y-6">
+          <div class="space-y-4 sm:space-y-6">
             <!-- Point 1 -->
-            <div class="flex gap-4 items-start bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 card-stagger">
-              <div class="flex-shrink-0 w-12 h-12 rounded-full bg-green text-white flex items-center justify-center font-bold text-xl shadow-lg">
+            <div class="flex gap-3 sm:gap-4 items-start bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 card-stagger">
+              <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-green text-white flex items-center justify-center font-bold text-lg sm:text-xl shadow-lg">
                 ✓
               </div>
               <div>
-                <h4 class="font-bold text-lg text-secondary mb-1">
+                <h4 class="font-bold text-base sm:text-lg text-secondary mb-1">
                   แคปซูลจิ๋ว 4 เม็ดในหนึ่งแผ่น
                 </h4>
-                <p class="text-gray-600">
+                <p class="text-sm sm:text-base text-gray-600">
                   ช่วยกักเก็บกลิ่นและปล่อยแบบ Slow Release
                 </p>
               </div>
             </div>
             
             <!-- Point 2 -->
-            <div class="flex gap-4 items-start bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 card-stagger">
-              <div class="flex-shrink-0 w-12 h-12 rounded-full bg-green text-white flex items-center justify-center font-bold text-xl shadow-lg">
+            <div class="flex gap-3 sm:gap-4 items-start bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 card-stagger">
+              <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-green text-white flex items-center justify-center font-bold text-lg sm:text-xl shadow-lg">
                 ✓
               </div>
               <div>
-                <h4 class="font-bold text-lg text-secondary mb-1">
+                <h4 class="font-bold text-base sm:text-lg text-secondary mb-1">
                   ประสิทธิภาพสูงกว่า 40 เท่า
                 </h4>
-                <p class="text-gray-600">
+                <p class="text-sm sm:text-base text-gray-600">
                   เหนือกว่าแผ่นแปะทั่วไป
                 </p>
               </div>
             </div>
             
             <!-- Point 3 -->
-            <div class="flex gap-4 items-start bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 card-stagger">
-              <div class="flex-shrink-0 w-12 h-12 rounded-full bg-green text-white flex items-center justify-center font-bold text-xl shadow-lg">
+            <div class="flex gap-3 sm:gap-4 items-start bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 card-stagger">
+              <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-green text-white flex items-center justify-center font-bold text-lg sm:text-xl shadow-lg">
                 ✓
               </div>
               <div>
-                <h4 class="font-bold text-lg text-secondary mb-1">
+                <h4 class="font-bold text-base sm:text-lg text-secondary mb-1">
                   ออกฤทธิ์ทันที เมื่อบีบเม็ด
                 </h4>
-                <p class="text-gray-600">
+                <p class="text-sm sm:text-base text-gray-600">
                   ปล่อยกลิ่นหอมทันควัน
                 </p>
               </div>
@@ -809,63 +845,63 @@
     </div>
   </section>
   
-  <!-- Suitable For Section -->
+  <!-- Suitable For Section - MOBILE OPTIMIZED -->
   <section id="suitable" class="section-pad bg-gradient-to-br from-accent/40 to-accent/20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-16 fade-in" data-anim="up">
-        <h2 class="text-4xl lg:text-5xl font-bold text-secondary mb-4">
+      <div class="text-center mb-10 sm:mb-16 fade-in" data-anim="up">
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-secondary mb-2 sm:mb-4">
           Suitable for <span class="text-primary">You</span> (เหมาะกับใคร?)
         </h2>
-        <p class="text-xl text-secondary/70">เหมาะกับคนที่ใช้ชีวิตกลางแจ้งแบบชิล ๆ</p>
+        <p class="text-base sm:text-xl text-secondary/70">เหมาะกับคนที่ใช้ชีวิตกลางแจ้งแบบชิล ๆ</p>
       </div>
       
-      <div class="grid md:grid-cols-3 gap-8 mb-16">
+      <div class="grid md:grid-cols-3 gap-4 sm:gap-8 mb-10 sm:mb-16">
         <!-- Card 1 -->
-        <div class="relative rounded-3xl overflow-hidden shadow-xl h-96 fade-in card-stagger group" data-anim="zoom">
+        <div class="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl h-72 sm:h-96 fade-in card-stagger group" data-anim="zoom">
           <img 
             src="https://i.postimg.cc/FKYwDMsX/section-4.png" 
             alt="Reading" 
             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
           />
           <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-          <div class="absolute bottom-0 left-0 right-0 p-8 transform transition-transform duration-300 group-hover:-translate-y-2">
-            <h3 class="text-2xl font-bold text-white mb-2">อ่านหนังสือ</h3>
-            <p class="text-white/90">ที่ร้านกาแฟ</p>
+          <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-8 transform transition-transform duration-300 group-hover:-translate-y-2">
+            <h3 class="text-xl sm:text-2xl font-bold text-white mb-1 sm:mb-2">อ่านหนังสือ</h3>
+            <p class="text-sm sm:text-base text-white/90">ที่ร้านกาแฟ</p>
           </div>
         </div>
         
         <!-- Card 2 -->
-        <div class="relative rounded-3xl overflow-hidden shadow-xl h-96 fade-in card-stagger group" data-anim="zoom">
+        <div class="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl h-72 sm:h-96 fade-in card-stagger group" data-anim="zoom">
           <img 
             src="https://i.postimg.cc/jjDBZpqw/section-4-(2).png" 
             alt="Working" 
             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
           />
           <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-          <div class="absolute bottom-0 left-0 right-0 p-8 transform transition-transform duration-300 group-hover:-translate-y-2">
-            <h3 class="text-2xl font-bold text-white mb-2">นั่งทำงาน</h3>
-            <p class="text-white/90">นอกอาคาร</p>
+          <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-8 transform transition-transform duration-300 group-hover:-translate-y-2">
+            <h3 class="text-xl sm:text-2xl font-bold text-white mb-1 sm:mb-2">นั่งทำงาน</h3>
+            <p class="text-sm sm:text-base text-white/90">นอกอาคาร</p>
           </div>
         </div>
         
         <!-- Card 3 -->
-        <div class="relative rounded-3xl overflow-hidden shadow-xl h-96 fade-in card-stagger group" data-anim="zoom">
+        <div class="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl h-72 sm:h-96 fade-in card-stagger group" data-anim="zoom">
           <img 
             src="https://i.postimg.cc/sgvnrpFS/10.png" 
             alt="Exercise" 
             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
           />
           <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-          <div class="absolute bottom-0 left-0 right-0 p-8 transform transition-transform duration-300 group-hover:-translate-y-2">
-            <h3 class="text-2xl font-bold text-white mb-2">ออกกำลังกาย</h3>
-            <p class="text-white/90">กลางแจ้ง</p>
+          <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-8 transform transition-transform duration-300 group-hover:-translate-y-2">
+            <h3 class="text-xl sm:text-2xl font-bold text-white mb-1 sm:mb-2">ออกกำลังกาย</h3>
+            <p class="text-sm sm:text-base text-white/90">กลางแจ้ง</p>
           </div>
         </div>
       </div>
       
       <!-- Quote -->
-      <div class="bg-gradient-to-r from-accent to-primary/20 rounded-3xl p-12 text-center fade-in shadow-xl hover:shadow-2xl transition-shadow duration-300" data-anim="up">
-        <p class="text-2xl lg:text-3xl font-bold text-secondary leading-relaxed">
+      <div class="bg-gradient-to-r from-accent to-primary/20 rounded-2xl sm:rounded-3xl p-6 sm:p-12 text-center fade-in shadow-xl hover:shadow-2xl transition-shadow duration-300" data-anim="up">
+        <p class="text-xl sm:text-2xl lg:text-3xl font-bold text-secondary leading-relaxed">
           "ไม่จำเป็นต้องลุยป่า VEE VEE ก็จำเป็น<br class="hidden sm:block"/>
           สำหรับทุกวันที่คุณอยู่กลางแจ้ง"
         </p>
@@ -873,86 +909,86 @@
     </div>
   </section>
   
-  <!-- Ingredients Section -->
+  <!-- Ingredients Section - MOBILE OPTIMIZED -->
   <section id="ingredients" class="section-pad bg-white">
     <div class="max-w-[1280px] mx-auto px-4">
-      <div class="text-center space-y-2 mb-10 fade-in" data-anim="up">
-        <h2 class="text-4xl md:text-5xl font-bold text-secondary">ส่วนผสมจากธรรมชาติ</h2>
-        <p class="text-secondary/70 text-lg">ผสมผสานพลังธรรมชาติ 5 ชนิด เพื่อการป้องกันยุงที่มีประสิทธิภาพ</p>
+      <div class="text-center space-y-2 mb-8 sm:mb-10 fade-in" data-anim="up">
+        <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-secondary">ส่วนผสมจากธรรมชาติ</h2>
+        <p class="text-secondary/70 text-base sm:text-lg">ผสมผสานพลังธรรมชาติ 5 ชนิด เพื่อการป้องกันยุงที่มีประสิทธิภาพ</p>
       </div>
       
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-7">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-7">
         <!-- Ingredient 1 -->
-        <div class="bg-white rounded-3xl p-6 shadow-xl ring-1 ring-black/5 hover:shadow-2xl transition-all duration-300 fade-in card-stagger hover-lift" data-anim="zoom">
-          <div class="flex items-center gap-5">
+        <div class="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-xl ring-1 ring-black/5 hover:shadow-2xl transition-all duration-300 fade-in card-stagger hover-lift ingredient-card" data-anim="zoom">
+          <div class="flex items-center gap-3 sm:gap-5">
             <img 
               src="https://i.postimg.cc/HW4Y38nP/53.png" 
-              class="w-24 h-24 object-contain rounded-xl ring-1 ring-black/5" 
+              class="w-16 h-16 sm:w-24 sm:h-24 object-contain rounded-xl ring-1 ring-black/5 flex-shrink-0" 
               alt="ตะไคร้หอม"
             />
             <div>
-              <h3 class="text-xl font-semibold text-secondary mb-1">น้ำมันตะไคร้หอม</h3>
-              <p class="text-secondary/70 text-sm">กลิ่นหอมสดชื่นที่ยุงไม่ชอบ ไล่ยุงได้ดี</p>
+              <h3 class="text-base sm:text-xl font-semibold text-secondary mb-1">น้ำมันตะไคร้หอม</h3>
+              <p class="text-secondary/70 text-xs sm:text-sm">กลิ่นหอมสดชื่นที่ยุงไม่ชอบ ไล่ยุงได้ดี</p>
             </div>
           </div>
         </div>
         
         <!-- Ingredient 2 -->
-        <div class="bg-white rounded-3xl p-6 shadow-xl ring-1 ring-black/5 hover:shadow-2xl transition-all duration-300 fade-in card-stagger hover-lift" data-anim="zoom">
-          <div class="flex items-center gap-5">
+        <div class="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-xl ring-1 ring-black/5 hover:shadow-2xl transition-all duration-300 fade-in card-stagger hover-lift ingredient-card" data-anim="zoom">
+          <div class="flex items-center gap-3 sm:gap-5">
             <img 
               src="https://i.postimg.cc/x87tLTwG/56.png" 
-              class="w-24 h-24 object-contain rounded-xl ring-1 ring-black/5" 
+              class="w-16 h-16 sm:w-24 sm:h-24 object-contain rounded-xl ring-1 ring-black/5 flex-shrink-0" 
               alt="ยูคาลิปตัส"
             />
             <div>
-              <h3 class="text-xl font-semibold text-secondary mb-1">น้ำมันยูคาลิปตัส</h3>
-              <p class="text-secondary/70 text-sm">ช่วยไล่ยุงและให้ความรู้สึกสดชื่น</p>
+              <h3 class="text-base sm:text-xl font-semibold text-secondary mb-1">น้ำมันยูคาลิปตัส</h3>
+              <p class="text-secondary/70 text-xs sm:text-sm">ช่วยไล่ยุงและให้ความรู้สึกสดชื่น</p>
             </div>
           </div>
         </div>
         
         <!-- Ingredient 3 -->
-        <div class="bg-white rounded-3xl p-6 shadow-xl ring-1 ring-black/5 hover:shadow-2xl transition-all duration-300 fade-in card-stagger hover-lift" data-anim="zoom">
-          <div class="flex items-center gap-5">
+        <div class="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-xl ring-1 ring-black/5 hover:shadow-2xl transition-all duration-300 fade-in card-stagger hover-lift ingredient-card" data-anim="zoom">
+          <div class="flex items-center gap-3 sm:gap-5">
             <img 
               src="https://i.postimg.cc/fTr6vMcr/55.png" 
-              class="w-24 h-24 object-contain rounded-xl ring-1 ring-black/5" 
+              class="w-16 h-16 sm:w-24 sm:h-24 object-contain rounded-xl ring-1 ring-black/5 flex-shrink-0" 
               alt="เปปเปอร์มินต์"
             />
             <div>
-              <h3 class="text-xl font-semibold text-secondary mb-1">เปปเปอร์มินต์</h3>
-              <p class="text-secondary/70 text-sm">กลิ่นเย็นสดชื่น ผ่อนคลายและไล่ยุง</p>
+              <h3 class="text-base sm:text-xl font-semibold text-secondary mb-1">เปปเปอร์มินต์</h3>
+              <p class="text-secondary/70 text-xs sm:text-sm">กลิ่นเย็นสดชื่น ผ่อนคลายและไล่ยุง</p>
             </div>
           </div>
         </div>
         
         <!-- Ingredient 4 -->
-        <div class="bg-white rounded-3xl p-6 shadow-xl ring-1 ring-black/5 hover:shadow-2xl transition-all duration-300 fade-in card-stagger hover-lift" data-anim="zoom">
-          <div class="flex items-center gap-5">
+        <div class="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-xl ring-1 ring-black/5 hover:shadow-2xl transition-all duration-300 fade-in card-stagger hover-lift ingredient-card" data-anim="zoom">
+          <div class="flex items-center gap-3 sm:gap-5">
             <img 
               src="https://i.postimg.cc/25zFbZqR/54.png" 
-              class="w-24 h-24 object-contain rounded-xl ring-1 ring-black/5" 
+              class="w-16 h-16 sm:w-24 sm:h-24 object-contain rounded-xl ring-1 ring-black/5 flex-shrink-0" 
               alt="เจอเรเนียม"
             />
             <div>
-              <h3 class="text-xl font-semibold text-secondary mb-1">ดอกเจอเรเนียม</h3>
-              <p class="text-secondary/70 text-sm">คุณสมบัติไล่ยุงตามธรรมชาติ</p>
+              <h3 class="text-base sm:text-xl font-semibold text-secondary mb-1">ดอกเจอเรเนียม</h3>
+              <p class="text-secondary/70 text-xs sm:text-sm">คุณสมบัติไล่ยุงตามธรรมชาติ</p>
             </div>
           </div>
         </div>
         
         <!-- Ingredient 5 -->
-        <div class="bg-white rounded-3xl p-6 shadow-xl ring-1 ring-black/5 hover:shadow-2xl transition-all duration-300 fade-in card-stagger hover-lift" data-anim="zoom">
-          <div class="flex items-center gap-5">
+        <div class="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-xl ring-1 ring-black/5 hover:shadow-2xl transition-all duration-300 fade-in card-stagger hover-lift ingredient-card" data-anim="zoom">
+          <div class="flex items-center gap-3 sm:gap-5">
             <img 
               src="https://i.postimg.cc/25WSmN6Q/istockphoto-96631623-612x612.jpg" 
-              class="w-24 h-24 object-cover rounded-xl ring-1 ring-black/5" 
+              class="w-16 h-16 sm:w-24 sm:h-24 object-cover rounded-xl ring-1 ring-black/5 flex-shrink-0" 
               alt="ซีดาร์"
             />
             <div>
-              <h3 class="text-xl font-semibold text-secondary mb-1">ซีดาร์</h3>
-              <p class="text-secondary/70 text-sm">กลิ่นหอมแบบธรรมชาติ ช่วยไล่ยุง</p>
+              <h3 class="text-base sm:text-xl font-semibold text-secondary mb-1">ซีดาร์</h3>
+              <p class="text-secondary/70 text-xs sm:text-sm">กลิ่นหอมแบบธรรมชาติ ช่วยไล่ยุง</p>
             </div>
           </div>
         </div>
@@ -960,205 +996,205 @@
     </div>
   </section>
   
-  <!-- How to Use Section -->
+  <!-- How to Use Section - MOBILE OPTIMIZED -->
   <section id="howto" class="section-pad bg-gradient-to-br from-accent/20 to-white">
     <div class="max-w-[1280px] mx-auto px-4">
       <!-- Main Image -->
-      <div class="fade-in mb-12" data-anim="zoom">
+      <div class="fade-in mb-8 sm:mb-12" data-anim="zoom">
         <img 
           src="https://i.postimg.cc/tJZVbjtH/SECTION-6.png" 
           alt="How it Works - วิธีใช้งาน" 
-          class="w-full h-auto rounded-3xl shadow-2xl transform hover:scale-105 transition-transform duration-500"
+          class="w-full h-auto rounded-2xl sm:rounded-3xl shadow-2xl transform hover:scale-105 transition-transform duration-500"
         />
       </div>
 
-      <div class="text-center space-y-2 mb-10 fade-in" data-anim="up">
-        <h3 class="text-3xl md:text-4xl font-bold">ติดไว้ได้ทุกที่ที่ต้องการ</h3>
-        <p class="text-secondary/70">ป้องกันคุณจากยุงรบกวน</p>
+      <div class="text-center space-y-2 mb-8 sm:mb-10 fade-in" data-anim="up">
+        <h3 class="text-2xl sm:text-3xl md:text-4xl font-bold">ติดไว้ได้ทุกที่ที่ต้องการ</h3>
+        <p class="text-secondary/70 text-sm sm:text-base">ป้องกันคุณจากยุงรบกวน</p>
       </div>
 
-      <div class="grid md:grid-cols-3 gap-8">
+      <div class="grid md:grid-cols-3 gap-4 sm:gap-8">
         <!-- Place 1 -->
-        <article class="bg-white rounded-3xl shadow-xl ring-1 ring-black/5 overflow-hidden fade-in card-stagger hover:shadow-2xl transition-all duration-500 hover-lift" data-anim="up">
+        <article class="bg-white rounded-2xl sm:rounded-3xl shadow-xl ring-1 ring-black/5 overflow-hidden fade-in card-stagger hover:shadow-2xl transition-all duration-500 hover-lift" data-anim="up">
           <div class="relative w-full aspect-[16/10] overflow-hidden">
             <img 
               src="https://i.postimg.cc/DZ56RSg8/2-1.png" 
               class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 hover:scale-110" 
               alt="บนเสื้อ"
             />
-            <span class="absolute top-4 left-4 px-4 py-2 rounded-full text-white text-sm font-semibold bg-primary shadow-lg">
+            <span class="absolute top-3 left-3 px-3 py-1.5 rounded-full text-white text-xs sm:text-sm font-semibold bg-primary shadow-lg">
               บนเสื้อ
             </span>
           </div>
-          <div class="p-6 text-center">
-            <h3 class="text-xl font-semibold mb-2">แปะบนเสื้อผ้า</h3>
-            <p class="text-secondary/70">เสื้อเชิ้ต/เสื้อประจำวัน ป้องกันยุงได้ตลอดวัน</p>
+          <div class="p-4 sm:p-6 text-center">
+            <h3 class="text-lg sm:text-xl font-semibold mb-1 sm:mb-2">แปะบนเสื้อผ้า</h3>
+            <p class="text-secondary/70 text-sm">เสื้อเชิ้ต/เสื้อประจำวัน ป้องกันยุงได้ตลอดวัน</p>
           </div>
         </article>
 
         <!-- Place 2 -->
-        <article class="bg-white rounded-3xl shadow-xl ring-1 ring-black/5 overflow-hidden fade-in card-stagger hover:shadow-2xl transition-all duration-500 hover-lift" data-anim="up">
+        <article class="bg-white rounded-2xl sm:rounded-3xl shadow-xl ring-1 ring-black/5 overflow-hidden fade-in card-stagger hover:shadow-2xl transition-all duration-500 hover-lift" data-anim="up">
           <div class="relative w-full aspect-[16/10] overflow-hidden">
             <img 
               src="https://i.postimg.cc/KYDDg1CJ/3.png" 
               class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 hover:scale-110" 
               alt="บนกางเกง"
             />
-            <span class="absolute top-4 left-4 px-4 py-2 rounded-full text-white text-sm font-semibold bg-green shadow-lg">
+            <span class="absolute top-3 left-3 px-3 py-1.5 rounded-full text-white text-xs sm:text-sm font-semibold bg-green shadow-lg">
               บนกางเกง
             </span>
           </div>
-          <div class="p-6 text-center">
-            <h3 class="text-xl font-semibold mb-2">แปะบนกางเกง</h3>
-            <p class="text-secondary/70">กางเกง กระโปรง หรือขาสั้น ป้องกันบริเวณขา</p>
+          <div class="p-4 sm:p-6 text-center">
+            <h3 class="text-lg sm:text-xl font-semibold mb-1 sm:mb-2">แปะบนกางเกง</h3>
+            <p class="text-secondary/70 text-sm">กางเกง กระโปรง หรือขาสั้น ป้องกันบริเวณขา</p>
           </div>
         </article>
 
         <!-- Place 3 -->
-        <article class="bg-white rounded-3xl shadow-xl ring-1 ring-black/5 overflow-hidden fade-in card-stagger hover:shadow-2xl transition-all duration-500 hover-lift" data-anim="up">
+        <article class="bg-white rounded-2xl sm:rounded-3xl shadow-xl ring-1 ring-black/5 overflow-hidden fade-in card-stagger hover:shadow-2xl transition-all duration-500 hover-lift" data-anim="up">
           <div class="relative w-full aspect-[16/10] overflow-hidden">
             <img 
               src="https://i.postimg.cc/MKf0mPhc/4.png" 
               class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 hover:scale-110" 
               alt="บนกระเป๋า"
             />
-            <span class="absolute top-4 left-4 px-4 py-2 rounded-full text-white text-sm font-semibold bg-secondary shadow-lg">
+            <span class="absolute top-3 left-3 px-3 py-1.5 rounded-full text-white text-xs sm:text-sm font-semibold bg-secondary shadow-lg">
               บนกระเป๋า
             </span>
           </div>
-          <div class="p-6 text-center">
-            <h3 class="text-xl font-semibold mb-2">แปะบนกระเป๋า</h3>
-            <p class="text-secondary/70">กระเป๋าเป้/สะพาย ป้องกันรอบตัวขณะเดินทาง</p>
+          <div class="p-4 sm:p-6 text-center">
+            <h3 class="text-lg sm:text-xl font-semibold mb-1 sm:mb-2">แปะบนกระเป๋า</h3>
+            <p class="text-secondary/70 text-sm">กระเป๋าเป้/สะพาย ป้องกันรอบตัวขณะเดินทาง</p>
           </div>
         </article>
       </div>
     </div>
   </section>
   
-  <!-- FAQ Section -->
+  <!-- FAQ Section - MOBILE OPTIMIZED -->
   <section id="faq" class="section-pad bg-gradient-to-br from-accent/30 to-accent/10">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-16 fade-in" data-anim="up">
-        <h2 class="text-4xl lg:text-5xl font-bold text-secondary mb-4">
+      <div class="text-center mb-12 sm:mb-16 fade-in" data-anim="up">
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-secondary mb-2 sm:mb-4">
           FAQ <span class="text-primary">(คำถามที่พบบ่อย)</span>
         </h2>
       </div>
       
-      <div class="space-y-6">
+      <div class="space-y-4 sm:space-y-6">
         <!-- Q1 -->
         <div class="flex justify-start fade-in card-stagger" data-anim="left">
-          <div class="bg-green text-white rounded-3xl px-8 py-4 max-w-md shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-x-2">
-            <p class="font-semibold text-lg">ถาม: เด็กใช้ได้ไหม?</p>
+          <div class="bg-green text-white rounded-2xl sm:rounded-3xl px-4 sm:px-8 py-3 sm:py-4 max-w-xs sm:max-w-md shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-x-2">
+            <p class="font-semibold text-sm sm:text-lg">ถาม: เด็กใช้ได้ไหม?</p>
           </div>
         </div>
         
         <div class="flex justify-end fade-in card-stagger" data-anim="right">
-          <div class="bg-green-light text-secondary rounded-3xl px-8 py-4 max-w-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:translate-x-2">
-            <p class="font-medium text-lg">ตอบ: ใช้ได้ เพราะไม่สัมผัสผิวโดยตรง</p>
+          <div class="bg-green-light text-secondary rounded-2xl sm:rounded-3xl px-4 sm:px-8 py-3 sm:py-4 max-w-sm sm:max-w-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:translate-x-2">
+            <p class="font-medium text-sm sm:text-lg">ตอบ: ใช้ได้ เพราะไม่สัมผัสผิวโดยตรง</p>
           </div>
         </div>
         
         <!-- Q2 -->
         <div class="flex justify-start fade-in card-stagger" data-anim="left">
-          <div class="bg-green-dark text-white rounded-3xl px-8 py-4 max-w-md shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-x-2">
-            <p class="font-semibold text-lg">ถาม: แปะได้นานกี่ชั่วโมง?</p>
+          <div class="bg-green-dark text-white rounded-2xl sm:rounded-3xl px-4 sm:px-8 py-3 sm:py-4 max-w-xs sm:max-w-md shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-x-2">
+            <p class="font-semibold text-sm sm:text-lg">ถาม: แปะได้นานกี่ชั่วโมง?</p>
           </div>
         </div>
         
         <div class="flex justify-end fade-in card-stagger" data-anim="right">
-          <div class="bg-green-light text-secondary rounded-3xl px-8 py-4 max-w-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:translate-x-2">
-            <p class="font-medium text-lg">ตอบ: สูงสุด 24 ชั่วโมง ตามการบีบเม็ดแคปซูล</p>
+          <div class="bg-green-light text-secondary rounded-2xl sm:rounded-3xl px-4 sm:px-8 py-3 sm:py-4 max-w-sm sm:max-w-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:translate-x-2">
+            <p class="font-medium text-sm sm:text-lg">ตอบ: สูงสุด 24 ชั่วโมง ตามการบีบเม็ดแคปซูล</p>
           </div>
         </div>
         
         <!-- Q3 -->
         <div class="flex justify-start fade-in card-stagger" data-anim="left">
-          <div class="bg-green text-white rounded-3xl px-8 py-4 max-w-md shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-x-2">
-            <p class="font-semibold text-lg">ถาม: ติดบนผ้าทุกชนิดได้ไหม?</p>
+          <div class="bg-green text-white rounded-2xl sm:rounded-3xl px-4 sm:px-8 py-3 sm:py-4 max-w-xs sm:max-w-md shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-x-2">
+            <p class="font-semibold text-sm sm:text-lg">ถาม: ติดบนผ้าทุกชนิดได้ไหม?</p>
           </div>
         </div>
         
         <div class="flex justify-end fade-in card-stagger" data-anim="right">
-          <div class="bg-green-light text-secondary rounded-3xl px-8 py-4 max-w-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:translate-x-2">
-            <p class="font-medium text-lg">ตอบ: หลีกเลี่ยงผ้าขนสัตว์ ผ้าไหม และหนัง</p>
+          <div class="bg-green-light text-secondary rounded-2xl sm:rounded-3xl px-4 sm:px-8 py-3 sm:py-4 max-w-sm sm:max-w-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:translate-x-2">
+            <p class="font-medium text-sm sm:text-lg">ตอบ: หลีกเลี่ยงผ้าขนสัตว์ ผ้าไหม และหนัง</p>
           </div>
         </div>
         
         <!-- Q4 -->
         <div class="flex justify-start fade-in card-stagger" data-anim="left">
-          <div class="bg-green-dark text-white rounded-3xl px-8 py-4 max-w-md shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-x-2">
-            <p class="font-semibold text-lg">ถาม: กลิ่นแรงไหม?</p>
+          <div class="bg-green-dark text-white rounded-2xl sm:rounded-3xl px-4 sm:px-8 py-3 sm:py-4 max-w-xs sm:max-w-md shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-x-2">
+            <p class="font-semibold text-sm sm:text-lg">ถาม: กลิ่นแรงไหม?</p>
           </div>
         </div>
         
         <div class="flex justify-end fade-in card-stagger" data-anim="right">
-          <div class="bg-green-light text-secondary rounded-3xl px-8 py-4 max-w-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:translate-x-2">
-            <p class="font-medium text-lg">ตอบ: ปรับเองได้ตามต้องการ 1-4 เม็ด</p>
+          <div class="bg-green-light text-secondary rounded-2xl sm:rounded-3xl px-4 sm:px-8 py-3 sm:py-4 max-w-sm sm:max-w-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:translate-x-2">
+            <p class="font-medium text-sm sm:text-lg">ตอบ: ปรับเองได้ตามต้องการ 1-4 เม็ด</p>
           </div>
         </div>
       </div>
     </div>
   </section>
   
-  <!-- Product Section -->
+  <!-- Product Section - MOBILE OPTIMIZED -->
   <section id="product" class="section-pad bg-gradient-to-br from-primary/5 to-secondary/5">
     <div class="max-w-[1280px] mx-auto px-4">
-      <div class="text-center space-y-2 mb-10 fade-in" data-anim="up">
-        <h2 class="text-4xl md:text-5xl font-bold">ผลิตภัณฑ์ VeeVee</h2>
-        <p class="text-secondary/70">แผ่นแปะกันยุงจากธรรมชาติ คุณภาพระดับพรีเมียม</p>
+      <div class="text-center space-y-2 mb-8 sm:mb-10 fade-in" data-anim="up">
+        <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold">ผลิตภัณฑ์ VeeVee</h2>
+        <p class="text-secondary/70 text-sm sm:text-base">แผ่นแปะกันยุงจากธรรมชาติ คุณภาพระดับพรีเมียม</p>
       </div>
 
       <div class="max-w-4xl mx-auto">
-        <div class="bg-white rounded-3xl p-8 shadow-2xl hover:shadow-3xl transition-shadow duration-500 fade-in" data-anim="zoom">
-          <div class="grid lg:grid-cols-2 gap-10 items-center">
+        <div class="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-2xl hover:shadow-3xl transition-shadow duration-500 fade-in" data-anim="zoom">
+          <div class="grid lg:grid-cols-2 gap-6 sm:gap-10 items-center">
             <!-- Product Image -->
             <div class="relative group">
               <img 
                 src="https://i.postimg.cc/c1K4vJq0/po-s-te-xr-xic-Vee-Vee-(2).png" 
                 alt="VeeVee Product" 
-                class="w-full rounded-2xl shadow-lg transform group-hover:scale-105 transition-transform duration-500" 
+                class="w-full rounded-xl sm:rounded-2xl shadow-lg transform group-hover:scale-105 transition-transform duration-500" 
               />
               
               <!-- Floating Icons -->
-              <div class="absolute -right-4 top-1/2 -translate-y-1/2 space-y-3">
-                <div class="bg-green text-white p-3 rounded-full shadow-lg hover:scale-110 transition-transform duration-300 float">
-                  <i class="fa-solid fa-leaf"></i>
+              <div class="absolute -right-2 sm:-right-4 top-1/2 -translate-y-1/2 space-y-2 sm:space-y-3">
+                <div class="bg-green text-white p-2 sm:p-3 rounded-full shadow-lg hover:scale-110 transition-transform duration-300 float">
+                  <i class="fa-solid fa-leaf text-sm sm:text-base"></i>
                 </div>
-                <div class="bg-primary text-white p-3 rounded-full shadow-lg hover:scale-110 transition-transform duration-300 float-delay-1">
-                  <i class="fa-solid fa-shield-halved"></i>
+                <div class="bg-primary text-white p-2 sm:p-3 rounded-full shadow-lg hover:scale-110 transition-transform duration-300 float-delay-1">
+                  <i class="fa-solid fa-shield-halved text-sm sm:text-base"></i>
                 </div>
-                <div class="bg-green-dark text-white p-3 rounded-full shadow-lg hover:scale-110 transition-transform duration-300 float-delay-2">
-                  <i class="fa-solid fa-clock"></i>
+                <div class="bg-green-dark text-white p-2 sm:p-3 rounded-full shadow-lg hover:scale-110 transition-transform duration-300 float-delay-2">
+                  <i class="fa-solid fa-clock text-sm sm:text-base"></i>
                 </div>
               </div>
             </div>
 
             <!-- Product Details -->
-            <div class="space-y-6">
-              <h3 class="text-3xl font-bold">VeeVee Anti-Mosquito Patch</h3>
-              <p class="text-secondary/80">12 ชิ้น/ซอง พร้อมเทคโนโลยี Slow Release ยาวนาน 24 ชม.</p>
+            <div class="space-y-4 sm:space-y-6">
+              <h3 class="text-2xl sm:text-3xl font-bold">VeeVee Anti-Mosquito Patch</h3>
+              <p class="text-sm sm:text-base text-secondary/80">12 ชิ้น/ซอง พร้อมเทคโนโลยี Slow Release ยาวนาน 24 ชม.</p>
 
-              <div class="space-y-3">
-                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors duration-300">
-                  <span class="font-medium">จำนวนในซอง</span>
-                  <span class="text-primary font-bold">12 ชิ้น</span>
+              <div class="space-y-2 sm:space-y-3">
+                <div class="flex items-center justify-between p-3 sm:p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors duration-300">
+                  <span class="font-medium text-sm sm:text-base">จำนวนในซอง</span>
+                  <span class="text-primary font-bold text-sm sm:text-base">12 ชิ้น</span>
                 </div>
-                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors duration-300">
-                  <span class="font-medium">ระยะเวลาป้องกัน</span>
-                  <span class="text-primary font-bold">24 ชั่วโมง</span>
+                <div class="flex items-center justify-between p-3 sm:p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors duration-300">
+                  <span class="font-medium text-sm sm:text-base">ระยะเวลาป้องกัน</span>
+                  <span class="text-primary font-bold text-sm sm:text-base">24 ชั่วโมง</span>
                 </div>
-                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors duration-300">
-                  <span class="font-medium">ส่วนผสม</span>
-                  <span class="text-primary font-bold">100% ธรรมชาติ</span>
+                <div class="flex items-center justify-between p-3 sm:p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors duration-300">
+                  <span class="font-medium text-sm sm:text-base">ส่วนผสม</span>
+                  <span class="text-primary font-bold text-sm sm:text-base">100% ธรรมชาติ</span>
                 </div>
               </div>
 
               <div class="text-center">
-                <div class="text-4xl font-extrabold text-primary mb-1">฿119</div>
-                <p class="text-secondary/70 mb-4">ราคาต่อซอง</p>
+                <div class="text-3xl sm:text-4xl font-extrabold text-primary mb-1">฿119</div>
+                <p class="text-secondary/70 text-sm sm:text-base mb-3 sm:mb-4">ราคาต่อซอง</p>
                 <button 
                   @click="openOrderModal()" 
-                  class="bg-primary text-white px-8 py-3 rounded-full font-semibold hover:bg-primary/90 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 pulse-glow btn-shine"
+                  class="bg-primary text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-full font-semibold text-sm sm:text-base hover:bg-primary/90 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 pulse-glow btn-shine"
                 >
                   สั่งซื้อเลย
                 </button>
@@ -1170,37 +1206,37 @@
     </div>
   </section>
       
-  <!-- CTA Section -->
+  <!-- CTA Section - MOBILE OPTIMIZED -->
   <section id="cta" class="section-pad relative overflow-hidden" style="background: linear-gradient(135deg, #17242A 0%, #3E422E 55%, #D78B30 100%)">
     <div class="max-w-[1280px] mx-auto px-4 text-center text-white relative z-10">
       <!-- Main Heading -->
-      <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight">
+      <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold mb-3 sm:mb-4 leading-tight">
         แปะไว้อุ่นใจนานกว่า มั่นใจทุกกิจกรรมนอกบ้าน
       </h2>
       
       <!-- Subheading -->
-      <p class="text-lg sm:text-xl md:text-2xl mb-3">
+      <p class="text-base sm:text-lg md:text-2xl mb-2 sm:mb-3">
         เลือกความอุ่นใจให้ทุกวันของคุณ — เลือก <span class="text-accent font-bold">Vee Vee</span>
       </p>
       
       <!-- Description -->
-      <p class="text-base sm:text-lg md:text-xl text-white/90 mb-8 max-w-3xl mx-auto">
+      <p class="text-sm sm:text-base md:text-xl text-white/90 mb-6 sm:mb-8 max-w-3xl mx-auto">
         สั่งซื้อ VeeVee แผ่นแปะกันยุงจากธรรมชาติ — ปลอดภัย มีประสิทธิภาพ ใช้งานง่าย
       </p>
       
       <!-- CTA Buttons -->
-      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+      <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
         <a 
           href="tel:0979965556" 
-          class="bg-white text-primary px-7 py-3 rounded-full font-semibold hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 inline-flex items-center justify-center min-w-[200px]"
+          class="bg-white text-primary px-5 sm:px-7 py-2.5 sm:py-3 rounded-full font-semibold text-sm sm:text-base hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 inline-flex items-center justify-center min-w-[200px] sm:min-w-auto"
         >
-          <i class="fa-solid fa-phone mr-2"></i> โทรสั่งซื้อ 097-996-5556
+          <i class="fa-solid fa-phone mr-2"></i> <span class="hidden sm:inline">โทรสั่งซื้อ</span> 097-996-5556
         </a>
         
         <a 
           href="https://line.me/R/ti/p/@819rwbfr" 
           target="_blank"
-          class="border-2 border-white text-white px-7 py-3 rounded-full font-semibold hover:bg-white hover:text-secondary transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 inline-flex items-center justify-center min-w-[200px]"
+          class="border-2 border-white text-white px-5 sm:px-7 py-2.5 sm:py-3 rounded-full font-semibold text-sm sm:text-base hover:bg-white hover:text-secondary transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 inline-flex items-center justify-center min-w-[200px] sm:min-w-auto"
         >
           <i class="fa-brands fa-line mr-2"></i> สั่งผ่าน Line
         </a>
@@ -1208,7 +1244,7 @@
         <a 
           href="https://s.shopee.co.th/10rxDH30cw?share_channel_code=6" 
           target="_blank"
-          class="bg-secondary text-white px-7 py-3 rounded-full font-semibold hover:bg-secondary/90 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 inline-flex items-center justify-center min-w-[200px]"
+          class="bg-secondary text-white px-5 sm:px-7 py-2.5 sm:py-3 rounded-full font-semibold text-sm sm:text-base hover:bg-secondary/90 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 inline-flex items-center justify-center min-w-[200px] sm:min-w-auto"
         >
           <i class="fa-solid fa-cart-shopping mr-2"></i> ซื้อใน Shopee
         </a>
@@ -1217,83 +1253,83 @@
     
     <!-- Decorative Elements -->
     <div class="absolute top-0 left-0 w-full h-full pointer-events-none opacity-10">
-      <div class="absolute top-10 left-10 w-32 h-32 rounded-full bg-white blur-3xl"></div>
-      <div class="absolute bottom-10 right-10 w-40 h-40 rounded-full bg-accent blur-3xl"></div>
+      <div class="absolute top-10 left-10 w-24 sm:w-32 h-24 sm:h-32 rounded-full bg-white blur-3xl"></div>
+      <div class="absolute bottom-10 right-10 w-32 sm:w-40 h-32 sm:h-40 rounded-full bg-accent blur-3xl"></div>
     </div>
   </section>
   
-  <!-- Contact Section - เต็มจอ -->
+  <!-- Contact Section - เต็มจอ MOBILE OPTIMIZED -->
   <section id="contact" class="section-pad bg-secondary text-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid lg:grid-cols-2 gap-16 items-center">
+      <div class="grid lg:grid-cols-2 gap-12 sm:gap-16 items-center">
         <!-- Contact Info -->
-        <div class="space-y-8 fade-in" data-anim="left">
-          <h2 class="text-4xl lg:text-5xl font-bold">ติดต่อเรา</h2>
-          <p class="text-xl text-white/80">พร้อมให้บริการและตอบคำถามทุกเรื่องเกี่ยวกับ VeeVee</p>
+        <div class="space-y-6 sm:space-y-8 fade-in" data-anim="left">
+          <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold">ติดต่อเรา</h2>
+          <p class="text-lg sm:text-xl text-white/80">พร้อมให้บริการและตอบคำถามทุกเรื่องเกี่ยวกับ VeeVee</p>
           
-          <div class="space-y-6">
+          <div class="space-y-4 sm:space-y-6">
             <!-- Phone -->
-            <div class="flex items-center space-x-4 group hover:translate-x-2 transition-transform duration-300">
-              <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                <i class="fas fa-phone text-white"></i>
+            <div class="flex items-center space-x-3 sm:space-x-4 group hover:translate-x-2 transition-transform duration-300">
+              <div class="w-10 h-10 sm:w-12 sm:h-12 bg-primary rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg flex-shrink-0">
+                <i class="fas fa-phone text-white text-sm sm:text-base"></i>
               </div>
               <div>
-                <h4 class="font-semibold">โทรศัพท์</h4>
-                <p class="text-white/80">097-996-5556</p>
+                <h4 class="font-semibold text-sm sm:text-base">โทรศัพท์</h4>
+                <p class="text-white/80 text-sm sm:text-base">097-996-5556</p>
               </div>
             </div>
             
             <!-- Line -->
-            <div class="flex items-center space-x-4 group hover:translate-x-2 transition-transform duration-300">
-              <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                <i class="fab fa-line text-white"></i>
+            <div class="flex items-center space-x-3 sm:space-x-4 group hover:translate-x-2 transition-transform duration-300">
+              <div class="w-10 h-10 sm:w-12 sm:h-12 bg-primary rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg flex-shrink-0">
+                <i class="fab fa-line text-white text-sm sm:text-base"></i>
               </div>
               <div>
-                <h4 class="font-semibold">Line Official</h4>
-                <p class="text-white/80">@veevee.official</p>
+                <h4 class="font-semibold text-sm sm:text-base">Line Official</h4>
+                <p class="text-white/80 text-sm sm:text-base">@veevee.official</p>
               </div>
             </div>
             
             <!-- Email -->
-            <div class="flex items-center space-x-4 group hover:translate-x-2 transition-transform duration-300">
-              <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                <i class="fas fa-envelope text-white"></i>
+            <div class="flex items-center space-x-3 sm:space-x-4 group hover:translate-x-2 transition-transform duration-300">
+              <div class="w-10 h-10 sm:w-12 sm:h-12 bg-primary rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg flex-shrink-0">
+                <i class="fas fa-envelope text-white text-sm sm:text-base"></i>
               </div>
               <div>
-                <h4 class="font-semibold">อีเมล</h4>
-                <p class="text-white/80">veeveeofficialthailand@gmail.com</p>
+                <h4 class="font-semibold text-sm sm:text-base">อีเมล</h4>
+                <p class="text-white/80 text-xs sm:text-base break-all">veeveeofficialthailand@gmail.com</p>
               </div>
             </div>
           </div>
           
           <!-- Social Links -->
-          <div class="flex space-x-4 pt-4">
-            <a href="https://www.facebook.com/share/1EQ35YME6a/?mibextid=wwXIfr" target="_blank" class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 hover:scale-110 hover:rotate-12">
-              <i class="fab fa-facebook text-white text-xl"></i>
+          <div class="flex space-x-3 sm:space-x-4 pt-4">
+            <a href="https://www.facebook.com/share/1EQ35YME6a/?mibextid=wwXIfr" target="_blank" class="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 hover:scale-110 hover:rotate-12">
+              <i class="fab fa-facebook text-white text-lg sm:text-xl"></i>
             </a>
-            <a href="https://www.instagram.com/veevee.official?igsh=eDVtdTFmMmowZnk0" target="_blank" class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 hover:scale-110 hover:rotate-12">
-              <i class="fab fa-instagram text-white text-xl"></i>
+            <a href="https://www.instagram.com/veevee.official?igsh=eDVtdTFmMmowZnk0" target="_blank" class="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 hover:scale-110 hover:rotate-12">
+              <i class="fab fa-instagram text-white text-lg sm:text-xl"></i>
             </a>
-            <a href="https://www.youtube.com/@VEEVEE.official-x1e" target="_blank" class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 hover:scale-110 hover:rotate-12">
-              <i class="fab fa-youtube text-white text-xl"></i>
+            <a href="https://www.youtube.com/@VEEVEE.official-x1e" target="_blank" class="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 hover:scale-110 hover:rotate-12">
+              <i class="fab fa-youtube text-white text-lg sm:text-xl"></i>
             </a>
-            <a href="https://www.tiktok.com/@veevee_official?_t=ZS-8zZp4otlJdR&_r=1" target="_blank" class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 hover:scale-110 hover:rotate-12">
-              <i class="fab fa-tiktok text-white text-xl"></i>
+            <a href="https://www.tiktok.com/@veevee_official?_t=ZS-8zZp4otlJdR&_r=1" target="_blank" class="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 hover:scale-110 hover:rotate-12">
+              <i class="fab fa-tiktok text-white text-lg sm:text-xl"></i>
             </a>
           </div>
         </div>
         
         <!-- Contact Form -->
-        <div class="bg-white rounded-3xl p-8 fade-in shadow-2xl" data-anim="right">
-          <h3 class="text-2xl font-bold text-secondary mb-6">ส่งข้อความหาเรา</h3>
+        <div class="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 fade-in shadow-2xl" data-anim="right">
+          <h3 class="text-xl sm:text-2xl font-bold text-secondary mb-4 sm:mb-6">ส่งข้อความหาเรา</h3>
           
-          <form @submit.prevent="submitContactForm()" class="space-y-6">
+          <form @submit.prevent="submitContactForm()" class="space-y-4 sm:space-y-6">
             <input 
               type="text" 
               x-model="contactForm.name" 
               placeholder="ชื่อ-นามสกุล" 
               required 
-              class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary text-gray-700 transition-all duration-300"
+              class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary text-gray-700 transition-all duration-300"
             />
             
             <input 
@@ -1301,7 +1337,7 @@
               x-model="contactForm.email" 
               placeholder="อีเมล" 
               required 
-              class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary text-gray-700 transition-all duration-300"
+              class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary text-gray-700 transition-all duration-300"
             />
             
             <input 
@@ -1309,7 +1345,7 @@
               x-model="contactForm.phone" 
               placeholder="เบอร์โทรศัพท์" 
               required 
-              class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary text-gray-700 transition-all duration-300"
+              class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary text-gray-700 transition-all duration-300"
             />
             
             <textarea 
@@ -1317,13 +1353,13 @@
               placeholder="ข้อความ" 
               rows="4" 
               required 
-              class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary text-gray-700 transition-all duration-300"
+              class="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary text-gray-700 transition-all duration-300"
             ></textarea>
             
             <button 
               type="submit" 
               :disabled="contactSubmitting" 
-              class="w-full bg-primary text-white py-3 rounded-xl font-semibold hover:bg-primary/90 transition-all duration-300 disabled:opacity-50 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105 btn-shine"
+              class="w-full bg-primary text-white py-2.5 sm:py-3 text-sm sm:text-base rounded-xl font-semibold hover:bg-primary/90 transition-all duration-300 disabled:opacity-50 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105 btn-shine"
             >
               <span x-show="!contactSubmitting">ส่งข้อความ</span>
               <span x-show="contactSubmitting" class="flex items-center">
@@ -1338,141 +1374,141 @@
   </section>
   
   <!-- Footer -->
-  <footer class="bg-green-dark text-white py-12">
+  <footer class="bg-green-dark text-white py-8 sm:py-12">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center">
-        <div class="flex items-center justify-center gap-4 mb-6">
-          <img loading="lazy" decoding="async" src="https://i.postimg.cc/h4YCb73G/AR-13.png" alt="VeeVee" class="h-12 w-auto"/>
-          <span class="text-3xl font-bold">VeeVee</span>
+        <div class="flex items-center justify-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+          <img loading="lazy" decoding="async" src="https://i.postimg.cc/h4YCb73G/AR-13.png" alt="VeeVee" class="h-10 sm:h-12 w-auto"/>
+          <span class="text-2xl sm:text-3xl font-bold">VeeVee</span>
         </div>
-        <p class="text-white/80 text-lg mb-4">แผ่นแปะกันยุงจากธรรมชาติ ปกป้องคุณและครอบครัวอย่างปลอดภัย</p>
-        <p class="text-white/60">© 2025 VeeVee. All rights reserved.</p>
+        <p class="text-white/80 text-sm sm:text-lg mb-3 sm:mb-4 px-4">แผ่นแปะกันยุงจากธรรมชาติ ปกป้องคุณและครอบครัวอย่างปลอดภัย</p>
+        <p class="text-white/60 text-xs sm:text-base">© 2025 VeeVee. All rights reserved.</p>
       </div>
     </div>
   </footer>
   
   <!-- Order Modal -->
   <div x-show="showOrderModal" @click.self="closeOrderModal()" x-transition class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-    <div x-transition class="bg-white rounded-3xl p-8 max-w-2xl w-full max-h-screen overflow-y-auto shadow-2xl">
-      <div class="flex justify-between items-center mb-6">
-        <h2 class="text-3xl font-bold text-secondary">สั่งซื้อ VeeVee</h2>
+    <div x-transition class="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+      <div class="flex justify-between items-center mb-4 sm:mb-6">
+        <h2 class="text-2xl sm:text-3xl font-bold text-secondary">สั่งซื้อ VeeVee</h2>
         <button @click="closeOrderModal()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors duration-300">
           <i class="fas fa-times text-gray-600"></i>
         </button>
       </div>
       
       <!-- Product Preview -->
-      <div class="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl p-6 mb-8">
-        <div class="flex items-center space-x-4">
-          <img loading="lazy" decoding="async" src="https://i.postimg.cc/3Rz3yLqT/po-s-te-xr-xic-Vee-Vee.png" alt="VeeVee Product" class="w-20 h-20 rounded-xl object-cover"/>
-          <div class="flex-1">
-            <h3 class="text-xl font-semibold text-secondary mb-2">VeeVee Anti-Mosquito Patch</h3>
-            <p class="text-gray-700">12 ชิ้น/ซอง - ป้องกันยุง 24 ชั่วโมง</p>
-            <div class="flex items-center mt-2">
-              <span class="text-2xl font-bold text-primary">฿119</span>
-              <span class="text-gray-500 ml-2">ต่อซอง</span>
+      <div class="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-xl sm:rounded-2xl p-4 sm:p-6 mb-6 sm:mb-8">
+        <div class="flex items-center space-x-3 sm:space-x-4">
+          <img loading="lazy" decoding="async" src="https://i.postimg.cc/3Rz3yLqT/po-s-te-xr-xic-Vee-Vee.png" alt="VeeVee Product" class="w-16 h-16 sm:w-20 sm:h-20 rounded-xl object-cover flex-shrink-0"/>
+          <div class="flex-1 min-w-0">
+            <h3 class="text-lg sm:text-xl font-semibold text-secondary mb-1 sm:mb-2 truncate">VeeVee Anti-Mosquito Patch</h3>
+            <p class="text-gray-700 text-xs sm:text-base">12 ชิ้น/ซอง - ป้องกันยุง 24 ชั่วโมง</p>
+            <div class="flex items-center mt-1 sm:mt-2">
+              <span class="text-xl sm:text-2xl font-bold text-primary">฿119</span>
+              <span class="text-gray-500 ml-2 text-xs sm:text-base">ต่อซอง</span>
             </div>
           </div>
         </div>
       </div>
       
       <!-- Order Form -->
-      <form @submit.prevent="submitOrder()" class="space-y-6">
-        <div class="grid md:grid-cols-2 gap-6">
+      <form @submit.prevent="submitOrder()" class="space-y-4 sm:space-y-6">
+        <div class="grid md:grid-cols-2 gap-4 sm:gap-6">
           <div>
-            <label class="block text-sm font-semibold text-gray-700 mb-2">ชื่อ-นามสกุล *</label>
-            <input type="text" x-model="orderForm.name" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300"/>
+            <label class="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">ชื่อ-นามสกุล *</label>
+            <input type="text" x-model="orderForm.name" required class="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300"/>
           </div>
           <div>
-            <label class="block text-sm font-semibold text-gray-700 mb-2">เบอร์โทรศัพท์ *</label>
-            <input type="tel" x-model="orderForm.phone" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300"/>
+            <label class="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">เบอร์โทรศัพท์ *</label>
+            <input type="tel" x-model="orderForm.phone" required class="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300"/>
           </div>
         </div>
         
         <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-2">อีเมล</label>
-          <input type="email" x-model="orderForm.email" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300"/>
+          <label class="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">อีเมล</label>
+          <input type="email" x-model="orderForm.email" class="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300"/>
         </div>
         
         <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-2">จำนวนที่ต้องการ *</label>
-          <div class="flex items-center space-x-4">
+          <label class="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">จำนวนที่ต้องการ *</label>
+          <div class="flex items-center space-x-3 sm:space-x-4">
             <button type="button" @click="decreaseQuantity()" class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 transition-all duration-300 hover:scale-110">
               <i class="fas fa-minus text-gray-600"></i>
             </button>
-            <input type="number" x-model="orderForm.quantity" min="1" required readonly class="w-20 text-center py-2 border border-gray-300 rounded-lg font-semibold text-lg"/>
+            <input type="number" x-model="orderForm.quantity" min="1" required readonly class="w-16 sm:w-20 text-center py-2 border border-gray-300 rounded-lg font-semibold text-base sm:text-lg"/>
             <button type="button" @click="increaseQuantity()" class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300 transition-all duration-300 hover:scale-110">
               <i class="fas fa-plus text-gray-600"></i>
             </button>
-            <span class="text-gray-700">ซอง</span>
+            <span class="text-gray-700 text-sm sm:text-base">ซอง</span>
           </div>
         </div>
         
         <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-2">ที่อยู่จัดส่ง *</label>
-          <textarea x-model="orderForm.address" rows="3" required placeholder="กรุณากรอกที่อยู่จัดส่งให้ครบถ้วน" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300"></textarea>
+          <label class="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">ที่อยู่จัดส่ง *</label>
+          <textarea x-model="orderForm.address" rows="3" required placeholder="กรุณากรอกที่อยู่จัดส่งให้ครบถ้วน" class="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300"></textarea>
         </div>
         
         <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-2">วิธีการชำระเงิน *</label>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <label class="flex items-center p-4 border rounded-xl cursor-pointer transition-all duration-300" :class="orderForm.paymentMethod === 'qr' ? 'border-primary bg-primary/10 shadow-md' : 'border-gray-300 hover:border-primary/50'">
+          <label class="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">วิธีการชำระเงิน *</label>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
+            <label class="flex items-center p-3 sm:p-4 border rounded-xl cursor-pointer transition-all duration-300" :class="orderForm.paymentMethod === 'qr' ? 'border-primary bg-primary/10 shadow-md' : 'border-gray-300 hover:border-primary/50'">
               <input type="radio" x-model="orderForm.paymentMethod" value="qr" class="sr-only"/>
               <div class="flex-1 text-center">
-                <i class="fas fa-qrcode text-2xl mb-2 block" :class="orderForm.paymentMethod === 'qr' ? 'text-primary' : 'text-gray-400'"></i>
-                <span class="font-semibold">QR PromptPay</span>
+                <i class="fas fa-qrcode text-xl sm:text-2xl mb-1 sm:mb-2 block" :class="orderForm.paymentMethod === 'qr' ? 'text-primary' : 'text-gray-400'"></i>
+                <span class="font-semibold text-xs sm:text-base">QR PromptPay</span>
               </div>
             </label>
             
-            <label class="flex items-center p-4 border rounded-xl cursor-pointer transition-all duration-300" :class="orderForm.paymentMethod === 'transfer' ? 'border-primary bg-primary/10 shadow-md' : 'border-gray-300 hover:border-primary/50'">
+            <label class="flex items-center p-3 sm:p-4 border rounded-xl cursor-pointer transition-all duration-300" :class="orderForm.paymentMethod === 'transfer' ? 'border-primary bg-primary/10 shadow-md' : 'border-gray-300 hover:border-primary/50'">
               <input type="radio" x-model="orderForm.paymentMethod" value="transfer" class="sr-only"/>
               <div class="flex-1 text-center">
-                <i class="fas fa-university text-2xl mb-2 block" :class="orderForm.paymentMethod === 'transfer' ? 'text-primary' : 'text-gray-400'"></i>
-                <span class="font-semibold">โอนธนาคาร</span>
-                <div class="text-xs text-gray-600 mt-1">ธ.ไทยพาณิชย์<br/>438-052-4100</div>
+                <i class="fas fa-university text-xl sm:text-2xl mb-1 sm:mb-2 block" :class="orderForm.paymentMethod === 'transfer' ? 'text-primary' : 'text-gray-400'"></i>
+                <span class="font-semibold text-xs sm:text-base">โอนธนาคาร</span>
+                <div class="text-[10px] sm:text-xs text-gray-600 mt-1">ธ.ไทยพาณิชย์<br/>438-052-4100</div>
               </div>
             </label>
             
-            <label class="flex items-center p-4 border rounded-xl cursor-pointer transition-all duration-300" :class="orderForm.paymentMethod === 'cod' ? 'border-primary bg-primary/10 shadow-md' : 'border-gray-300 hover:border-primary/50'">
+            <label class="flex items-center p-3 sm:p-4 border rounded-xl cursor-pointer transition-all duration-300" :class="orderForm.paymentMethod === 'cod' ? 'border-primary bg-primary/10 shadow-md' : 'border-gray-300 hover:border-primary/50'">
               <input type="radio" x-model="orderForm.paymentMethod" value="cod" class="sr-only"/>
               <div class="flex-1 text-center">
-                <i class="fas fa-hand-holding-dollar text-2xl mb-2 block" :class="orderForm.paymentMethod === 'cod' ? 'text-primary' : 'text-gray-400'"></i>
-                <span class="font-semibold">เก็บเงินปลายทาง</span>
+                <i class="fas fa-hand-holding-dollar text-xl sm:text-2xl mb-1 sm:mb-2 block" :class="orderForm.paymentMethod === 'cod' ? 'text-primary' : 'text-gray-400'"></i>
+                <span class="font-semibold text-xs sm:text-base">เก็บเงินปลายทาง</span>
               </div>
             </label>
           </div>
         </div>
         
         <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-2">หมายเหตุ</label>
-          <textarea x-model="orderForm.note" rows="2" placeholder="หมายเหตุเพิ่มเติม (ถ้ามี)" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300"></textarea>
+          <label class="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">หมายเหตุ</label>
+          <textarea x-model="orderForm.note" rows="2" placeholder="หมายเหตุเพิ่มเติม (ถ้ามี)" class="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300"></textarea>
         </div>
         
         <!-- Order Summary -->
-        <div class="bg-gray-50 rounded-2xl p-6">
-          <h4 class="font-semibold text-gray-800 mb-4">สรุปคำสั่งซื้อ</h4>
-          <div class="space-y-2">
+        <div class="bg-gray-50 rounded-xl sm:rounded-2xl p-4 sm:p-6">
+          <h4 class="font-semibold text-gray-800 mb-3 sm:mb-4 text-sm sm:text-base">สรุปคำสั่งซื้อ</h4>
+          <div class="space-y-2 text-sm sm:text-base">
             <div class="flex justify-between">
               <span>VeeVee x <span x-text="orderForm.quantity"></span> ซอง</span>
               <span x-text="'฿' + (orderForm.quantity * 119).toLocaleString()"></span>
             </div>
-            <div class="flex justify-between text-sm text-gray-700">
+            <div class="flex justify-between text-xs sm:text-sm text-gray-700">
               <span>ค่าจัดส่ง</span>
               <span>฿50</span>
             </div>
-            <div x-show="orderForm.paymentMethod === 'cod'" class="flex justify-between text-sm text-gray-700">
+            <div x-show="orderForm.paymentMethod === 'cod'" class="flex justify-between text-xs sm:text-sm text-gray-700">
               <span>ค่า COD (3%)</span>
               <span x-text="'฿' + Math.round((orderForm.quantity * 119) * 0.03)"></span>
             </div>
             <hr class="my-2"/>
-            <div class="flex justify-between font-bold text-lg">
+            <div class="flex justify-between font-bold text-base sm:text-lg">
               <span>รวมทั้งหมด</span>
               <span class="text-primary" x-text="'฿' + getTotalPrice().toLocaleString()"></span>
             </div>
           </div>
         </div>
         
-        <button type="submit" :disabled="orderSubmitting || !orderForm.paymentMethod" class="w-full bg-primary text-white py-4 rounded-xl font-semibold text-lg hover:bg-primary/90 transition-all duration-300 disabled:opacity-50 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105 btn-shine">
+        <button type="submit" :disabled="orderSubmitting || !orderForm.paymentMethod" class="w-full bg-primary text-white py-3 sm:py-4 text-sm sm:text-lg rounded-xl font-semibold hover:bg-primary/90 transition-all duration-300 disabled:opacity-50 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105 btn-shine">
           <span x-show="!orderSubmitting">ยืนยันคำสั่งซื้อ</span>
           <span x-show="orderSubmitting" class="flex items-center">
             <span class="loading mr-2 border-2 border-white rounded-full w-4 h-4 inline-block border-t-transparent animate-spin"></span>
@@ -1487,42 +1523,42 @@
   
   <!-- QR Modal -->
   <div x-show="showQRModal" @click.self="closeQRModal()" x-transition class="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-    <div x-transition class="bg-white rounded-3xl p-8 max-w-md w-full text-center max-h-screen overflow-y-auto shadow-2xl">
+    <div x-transition class="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 max-w-md w-full text-center max-h-[90vh] overflow-y-auto shadow-2xl">
       <div x-show="!showSlipUpload && !showBankTransfer">
-        <div class="flex justify-between items-center mb-6">
-          <h3 class="text-2xl font-bold text-secondary">สแกน QR Code</h3>
+        <div class="flex justify-between items-center mb-4 sm:mb-6">
+          <h3 class="text-xl sm:text-2xl font-bold text-secondary">สแกน QR Code</h3>
           <button @click="closeQRModal()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors duration-300">
             <i class="fas fa-times text-gray-600"></i>
           </button>
         </div>
         
-        <div class="bg-gray-50 rounded-2xl p-6 mb-6">
+        <div class="bg-gray-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 mb-4 sm:mb-6">
           <div class="text-center mb-4">
-            <img :src="qrCodeUrl" alt="PromptPay QR Code" class="w-64 h-64 mx-auto border-2 border-gray-200 rounded-lg shadow-lg"/>
+            <img :src="qrCodeUrl" alt="PromptPay QR Code" class="w-48 h-48 sm:w-64 sm:h-64 mx-auto border-2 border-gray-200 rounded-lg shadow-lg"/>
           </div>
           <div class="text-center">
-            <p class="text-lg font-semibold text-secondary mb-2">PromptPay: 097-996-5556</p>
-            <p class="text-3xl font-bold text-primary mb-2" x-text="'฿' + qrAmount.toLocaleString()"></p>
-            <p class="text-sm text-gray-600">เลขที่คำสั่งซื้อ: <span class="font-medium" x-text="orderNumber"></span></p>
+            <p class="text-base sm:text-lg font-semibold text-secondary mb-2">PromptPay: 097-996-5556</p>
+            <p class="text-2xl sm:text-3xl font-bold text-primary mb-2" x-text="'฿' + qrAmount.toLocaleString()"></p>
+            <p class="text-xs sm:text-sm text-gray-600">เลขที่คำสั่งซื้อ: <span class="font-medium" x-text="orderNumber"></span></p>
           </div>
         </div>
         
-        <div class="text-left space-y-2 mb-6 bg-blue-50 p-4 rounded-xl">
-          <h4 class="font-semibold text-blue-800 mb-2">วิธีการชำระเงิน:</h4>
-          <p class="text-sm text-blue-700">1) สแกน QR ด้วยแอพธนาคาร</p>
-          <p class="text-sm text-blue-700">2) ตรวจสอบยอด <span class="font-bold" x-text="'฿' + qrAmount.toLocaleString()"></span></p>
-          <p class="text-sm text-blue-700">3) กดโอนเงิน</p>
-          <p class="text-sm text-blue-700">4) อัปโหลดสลิปในขั้นตอนถัดไป</p>
+        <div class="text-left space-y-2 mb-4 sm:mb-6 bg-blue-50 p-3 sm:p-4 rounded-xl">
+          <h4 class="font-semibold text-blue-800 mb-2 text-xs sm:text-base">วิธีการชำระเงิน:</h4>
+          <p class="text-xs sm:text-sm text-blue-700">1) สแกน QR ด้วยแอพธนาคาร</p>
+          <p class="text-xs sm:text-sm text-blue-700">2) ตรวจสอบยอด <span class="font-bold" x-text="'฿' + qrAmount.toLocaleString()"></span></p>
+          <p class="text-xs sm:text-sm text-blue-700">3) กดโอนเงิน</p>
+          <p class="text-xs sm:text-sm text-blue-700">4) อัปโหลดสลิปในขั้นตอนถัดไป</p>
         </div>
         
-        <div class="space-y-3">
-          <button @click="showSlipUpload = true" class="w-full bg-orange-500 text-white py-4 rounded-xl font-bold text-lg hover:bg-orange-600 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+        <div class="space-y-2 sm:space-y-3">
+          <button @click="showSlipUpload = true" class="w-full bg-orange-500 text-white py-3 sm:py-4 rounded-xl font-bold text-sm sm:text-lg hover:bg-orange-600 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
             <i class="fas fa-upload mr-2"></i> โอนเงินเรียบร้อย → อัปโหลดสลิป
           </button>
-          <button @click="showBankTransfer = true" class="w-full bg-blue-500 text-white py-3 rounded-xl font-semibold hover:bg-blue-600 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105">
+          <button @click="showBankTransfer = true" class="w-full bg-blue-500 text-white py-2.5 sm:py-3 rounded-xl font-semibold text-sm sm:text-base hover:bg-blue-600 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105">
             <i class="fas fa-university mr-2"></i> โอนธนาคารแทน
           </button>
-          <a href="https://line.me/R/ti/p/@819rwbfr" target="_blank" class="w-full border-2 border-green-500 text-green-600 py-3 rounded-xl font-semibold hover:bg-green-50 inline-flex items-center justify-center transition-all duration-300 hover:scale-105">
+          <a href="https://line.me/R/ti/p/@819rwbfr" target="_blank" class="w-full border-2 border-green-500 text-green-600 py-2.5 sm:py-3 rounded-xl font-semibold text-sm sm:text-base hover:bg-green-50 inline-flex items-center justify-center transition-all duration-300 hover:scale-105">
             <i class="fab fa-line mr-2"></i> ส่งสลิปผ่าน Line
           </a>
         </div>
@@ -1530,32 +1566,32 @@
       
       <!-- Bank Transfer Info -->
       <div x-show="showBankTransfer && !showSlipUpload">
-        <div class="flex justify-between items-center mb-6">
+        <div class="flex justify-between items-center mb-4 sm:mb-6">
           <button @click="showBankTransfer = false" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors duration-300">
             <i class="fas fa-arrow-left text-gray-600"></i>
           </button>
-          <h3 class="text-2xl font-bold text-secondary">โอนธนาคาร</h3>
+          <h3 class="text-xl sm:text-2xl font-bold text-secondary">โอนธนาคาร</h3>
           <button @click="closeQRModal()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors duration-300">
             <i class="fas fa-times text-gray-600"></i>
           </button>
         </div>
         
-        <div class="bg-blue-50 rounded-2xl p-6 mb-6 text-center">
-          <i class="fas fa-university text-4xl text-blue-600 mb-4"></i>
-          <h4 class="text-xl font-bold text-blue-800 mb-2">ธนาคารไทยพาณิชย์</h4>
-          <p class="text-2xl font-bold text-blue-900 mb-2">438-052-4100</p>
-          <p class="text-lg font-semibold text-blue-700">ธนภัทร ตันตระกูล</p>
-          <div class="mt-4 p-3 bg-white rounded-lg">
-            <p class="text-lg font-bold text-primary" x-text="'ยอดโอน: ฿' + qrAmount.toLocaleString()"></p>
-            <p class="text-sm text-gray-600">เลขที่คำสั่งซื้อ: <span x-text="orderNumber"></span></p>
+        <div class="bg-blue-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 mb-4 sm:mb-6 text-center">
+          <i class="fas fa-university text-3xl sm:text-4xl text-blue-600 mb-3 sm:mb-4"></i>
+          <h4 class="text-lg sm:text-xl font-bold text-blue-800 mb-2">ธนาคารไทยพาณิชย์</h4>
+          <p class="text-xl sm:text-2xl font-bold text-blue-900 mb-2">438-052-4100</p>
+          <p class="text-base sm:text-lg font-semibold text-blue-700">ธนภัทร ตันตระกูล</p>
+          <div class="mt-3 sm:mt-4 p-2 sm:p-3 bg-white rounded-lg">
+            <p class="text-base sm:text-lg font-bold text-primary" x-text="'ยอดโอน: ฿' + qrAmount.toLocaleString()"></p>
+            <p class="text-xs sm:text-sm text-gray-600">เลขที่คำสั่งซื้อ: <span x-text="orderNumber"></span></p>
           </div>
         </div>
         
-        <div class="space-y-3">
-          <button @click="showSlipUpload = true" class="w-full bg-orange-500 text-white py-4 rounded-xl font-bold text-lg hover:bg-orange-600 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+        <div class="space-y-2 sm:space-y-3">
+          <button @click="showSlipUpload = true" class="w-full bg-orange-500 text-white py-3 sm:py-4 rounded-xl font-bold text-sm sm:text-lg hover:bg-orange-600 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
             <i class="fas fa-upload mr-2"></i> โอนเงินเรียบร้อย → อัปโหลดสลิป
           </button>
-          <button @click="showBankTransfer = false" class="w-full border-2 border-gray-600 text-gray-800 py-3 rounded-xl font-semibold hover:bg-gray-100">
+          <button @click="showBankTransfer = false" class="w-full border-2 border-gray-600 text-gray-800 py-2.5 sm:py-3 rounded-xl font-semibold text-sm sm:text-base hover:bg-gray-100">
             กลับไปดู QR Code
           </button>
         </div>
@@ -1563,47 +1599,47 @@
       
       <!-- Slip Upload -->
       <div x-show="showSlipUpload">
-        <div class="flex justify-between items-center mb-6">
+        <div class="flex justify-between items-center mb-4 sm:mb-6">
           <button @click="showSlipUpload = false; showBankTransfer = false" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors duration-300">
             <i class="fas fa-arrow-left text-gray-600"></i>
           </button>
-          <h3 class="text-2xl font-bold text-secondary">อัปโหลดสลิป</h3>
+          <h3 class="text-xl sm:text-2xl font-bold text-secondary">อัปโหลดสลิป</h3>
           <button @click="closeQRModal()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors duration-300">
             <i class="fas fa-times text-gray-600"></i>
           </button>
         </div>
         
-        <div class="bg-gray-50 rounded-xl p-4 mb-6 text-left">
-          <p class="text-sm text-gray-700">เลขที่คำสั่งซื้อ: <span class="font-semibold" x-text="orderNumber"></span></p>
-          <p class="text-lg font-bold text-primary" x-text="'จำนวนเงิน: ฿' + qrAmount.toLocaleString()"></p>
+        <div class="bg-gray-50 rounded-xl p-3 sm:p-4 mb-4 sm:mb-6 text-left">
+          <p class="text-xs sm:text-sm text-gray-700">เลขที่คำสั่งซื้อ: <span class="font-semibold" x-text="orderNumber"></span></p>
+          <p class="text-base sm:text-lg font-bold text-primary" x-text="'จำนวนเงิน: ฿' + qrAmount.toLocaleString()"></p>
         </div>
         
-        <div class="mb-6">
-          <label class="block text-sm font-semibold text-gray-700 mb-3">เลือกไฟล์สลิปการโอนเงิน</label>
-          <div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-primary transition-colors duration-300">
+        <div class="mb-4 sm:mb-6">
+          <label class="block text-xs sm:text-sm font-semibold text-gray-700 mb-2 sm:mb-3">เลือกไฟล์สลิปการโอนเงิน</label>
+          <div class="border-2 border-dashed border-gray-300 rounded-xl p-4 sm:p-6 text-center hover:border-primary transition-colors duration-300">
             <input type="file" @change="handleSlipUpload" accept="image/*" class="hidden" id="slip-upload"/>
             <label for="slip-upload" class="cursor-pointer">
               <div x-show="!slipPreview">
-                <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-3 block"></i>
-                <p class="text-gray-700">คลิกเพื่อเลือกไฟล์สลิป (JPG, PNG, ≤ 5MB)</p>
+                <i class="fas fa-cloud-upload-alt text-3xl sm:text-4xl text-gray-400 mb-2 sm:mb-3 block"></i>
+                <p class="text-gray-700 text-xs sm:text-base">คลิกเพื่อเลือกไฟล์สลิป (JPG, PNG, ≤ 5MB)</p>
               </div>
-              <div x-show="slipPreview" class="space-y-3">
-                <img :src="slipPreview" alt="Slip Preview" class="max-w-full h-48 object-contain mx-auto rounded-lg"/>
-                <p class="text-sm text-green-600">✅ เลือกไฟล์แล้ว</p>
+              <div x-show="slipPreview" class="space-y-2 sm:space-y-3">
+                <img :src="slipPreview" alt="Slip Preview" class="max-w-full h-40 sm:h-48 object-contain mx-auto rounded-lg"/>
+                <p class="text-xs sm:text-sm text-green-600">✅ เลือกไฟล์แล้ว</p>
               </div>
             </label>
           </div>
         </div>
         
-        <div class="space-y-3">
-          <button @click="submitSlip()" :disabled="!slipFile || slipUploading" class="w-full bg-orange-500 text-white py-4 rounded-xl font-bold text-lg hover:bg-orange-600 disabled:opacity-50 flex items-center justify-center">
+        <div class="space-y-2 sm:space-y-3">
+          <button @click="submitSlip()" :disabled="!slipFile || slipUploading" class="w-full bg-orange-500 text-white py-3 sm:py-4 rounded-xl font-bold text-sm sm:text-lg hover:bg-orange-600 disabled:opacity-50 flex items-center justify-center">
             <span x-show="!slipUploading"><i class="fas fa-paper-plane mr-2"></i> ส่งสลิปการโอนเงิน</span>
             <span x-show="slipUploading" class="flex items-center">
               <span class="loading mr-2 border-2 border-white rounded-full w-4 h-4 inline-block border-t-transparent animate-spin"></span>
               กำลังส่งสลิป...
             </span>
           </button>
-          <button @click="showSlipUpload = false" class="w-full border-2 border-gray-600 text-gray-800 py-3 rounded-xl font-semibold hover:bg-gray-100">
+          <button @click="showSlipUpload = false" class="w-full border-2 border-gray-600 text-gray-800 py-2.5 sm:py-3 rounded-xl font-semibold text-sm sm:text-base hover:bg-gray-100">
             กลับไปดู QR Code
           </button>
         </div>
@@ -1613,19 +1649,19 @@
   
   <!-- Success Modal -->
   <div x-show="showSuccessModal" x-transition class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-    <div x-transition class="bg-white rounded-3xl p-8 max-w-md w-full text-center">
+    <div x-transition class="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 max-w-md w-full text-center">
       <svg class="success-checkmark" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
         <circle class="success-checkmark__circle" cx="26" cy="26" r="25" fill="none"></circle>
         <path class="success-checkmark__check" fill="none" d="m14.1 27.2l7.1 7.2 16.7-16.8"></path>
       </svg>
       
-      <h3 class="text-2xl font-bold text-secondary mb-4">ขอบคุณครับ!</h3>
-      <p class="text-gray-700 mb-2" x-text="successMessage"></p>
-      <p class="text-sm text-gray-600 mb-6" x-show="orderNumber">
+      <h3 class="text-xl sm:text-2xl font-bold text-secondary mb-3 sm:mb-4">ขอบคุณครับ!</h3>
+      <p class="text-gray-700 text-sm sm:text-base mb-2" x-text="successMessage"></p>
+      <p class="text-xs sm:text-sm text-gray-600 mb-4 sm:mb-6" x-show="orderNumber">
         หมายเลขคำสั่งซื้อ: <span class="font-semibold" x-text="orderNumber"></span>
       </p>
       
-      <button @click="closeSuccessModal()" class="bg-primary text-white px-8 py-3 rounded-full font-semibold hover:bg-primary/90 transition-all duration-300">
+      <button @click="closeSuccessModal()" class="bg-primary text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-full font-semibold text-sm sm:text-base hover:bg-primary/90 transition-all duration-300">
         ตกลง
       </button>
     </div>
@@ -1718,7 +1754,6 @@
         },
         
         generatePromptPayQR(amount) {
-          // Returns the static QR code image
           return 'https://i.postimg.cc/QCtZpLYX/Vee-Vee-QR-Code-png.jpg';
         },
         
@@ -1979,7 +2014,7 @@
           // Intersection Observer for animations
           const observerOptions = {
             threshold: 0.05,
-            rootMargin: '50px 0px 0px 0px'
+            rootMargin: '30px 0px 0px 0px'
           };
           
           const observer = new IntersectionObserver((entries) => {
@@ -2002,7 +2037,7 @@
                 e.preventDefault();
                 const target = document.querySelector(href);
                 if (target) {
-                  const offset = 80;
+                  const offset = window.innerWidth < 640 ? 64 : 80;
                   const elementPosition = target.getBoundingClientRect().top;
                   const offsetPosition = elementPosition + window.scrollY - offset;
                   window.scrollTo({
